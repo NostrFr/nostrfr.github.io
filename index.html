@@ -9,23 +9,16 @@
 
 <body id="top">
 
-<!-- ============================
-     HEADER TYPO ANIMÉ
-============================ -->
 <header class="hero-header">
   <h1 class="hero-title-anim glitch-active" data-text="NostrFr by famas">
-  NostrFr by famas
-</h1>
-
+    NostrFr by famas
+  </h1>
   <p class="hero-subtitle-anim">Outils Nostr & Bitcoin & expériences utilisateur</p>
   <div class="fx-separator"></div>
 </header>
 
 <main>
 
-  <!-- ============================
-       CARTE ID
-  ============================ -->
   <div class="id-card">
     <h3>Identité Nostr</h3>
 
@@ -37,8 +30,7 @@
     <p class="id-label">Profil Ditto</p>
     <p class="id-value">
       <a href="https://ditto.pub/npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq"
-         target="_blank"
-         class="fx-underline">
+         target="_blank">
         ditto.pub / ketama
       </a>
     </p>
@@ -47,11 +39,8 @@
     <p class="id-value">ketama@rizful.com</p>
   </div>
 
-  <!-- ============================
-       BITCOIN LIVE
-  ============================ -->
   <section class="hero-btc">
-    <h2 class="hero-title fx-reveal">Bitcoin — Live Timechain</h2>
+    <h2 class="hero-title">Bitcoin — Live Timechain</h2>
 
     <div class="hero-grid">
 
@@ -78,13 +67,10 @@
     </div>
   </section>
 
-  <!-- ============================
-       ARTICLES
-  ============================ -->
   <section class="post-list">
     <article>
       <h2>
-        <a href="/posts/article-1.html" class="fx-underline">
+        <a href="/posts/article-1.html">
           Article 1 — Matrice vierge
         </a>
       </h2>
@@ -94,39 +80,29 @@
 
 </main>
 
-<!-- ============================
-     FOOTER
-============================ -->
 <footer>
   <a href="#top" class="top-btn">↑ Haut de page</a>
   <p>NostrFr — Blog souverain</p>
 </footer>
 
-<!-- ============================
-     SCRIPT BITCOIN (stable)
-============================ -->
 <script>
 async function loadBTC() {
   try {
-    /* Prix */
     const priceRes = await fetch("https://mempool.space/api/v1/prices");
     const priceData = await priceRes.json();
     document.getElementById("btc-price").textContent =
       priceData?.USD ? "$" + priceData.USD.toLocaleString() : "N/A";
 
-    /* Height */
     const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
     const heightData = await heightRes.json();
     document.getElementById("btc-height").textContent =
       typeof heightData === "number" ? heightData.toLocaleString() : "N/A";
 
-    /* Mempool */
     const mempoolRes = await fetch("https://mempool.space/api/mempool");
     const mempoolData = await mempoolRes.json();
     document.getElementById("btc-mempool").textContent =
       mempoolData?.count ? mempoolData.count.toLocaleString() + " tx" : "N/A";
 
-    /* Fees */
     const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
     const feesData = await feesRes.json();
     document.getElementById("btc-fees").textContent =
