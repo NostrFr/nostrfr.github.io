@@ -148,3 +148,56 @@ footer {
   background: #fff;
   color: #000;
 }
+/* ============================
+   FX — REVEAL
+   ============================ */
+.fx-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fx-reveal 0.8s ease-out forwards;
+}
+
+@keyframes fx-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================
+   FX — SEPARATOR ANIMÉ
+   ============================ */
+.fx-separator {
+  width: 0;
+  height: 2px;
+  background: #444;
+  margin: 12px 0 24px 0;
+  animation: fx-sep-grow 1s ease-out forwards;
+}
+
+@keyframes fx-sep-grow {
+  to { width: 60px; }
+}
+
+/* ============================
+   FX — UNDERLINE ANIMÉ
+   ============================ */
+.fx-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.fx-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width .3s ease;
+}
+
+.fx-underline:hover::after {
+  width: 100%;
+}
