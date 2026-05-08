@@ -16,24 +16,77 @@ html, body {
 }
 
 /* ------------------------------
-   HEADER
+   HEADER TYPO ANIMÉ
 ------------------------------ */
-header {
-  padding: 2rem 0 1rem;
+.hero-header {
   text-align: left;
+  padding: 20px 0 10px;
 }
 
-h1 {
-  font-size: 2rem;
+.hero-title-anim {
+  font-size: 2.4rem;
   font-weight: 700;
-  margin-bottom: .3rem;
+  letter-spacing: -1px;
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  animation: title-reveal 1.2s ease-out forwards;
 }
 
-.separator {
-  width: 60px;
-  height: 2px;
-  background: #444;
-  margin-top: 1rem;
+@keyframes title-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  80% {
+    text-shadow: 0 0 2px rgba(255,255,255,0.3);
+  }
+  100% {
+    text-shadow: none;
+  }
+}
+
+.hero-subtitle-anim {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: subtitle-fade 1.4s ease-out forwards;
+  animation-delay: 0.4s;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+@keyframes subtitle-fade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------
+   SEPARATOR ORIGINAL RÉPARÉ
+------------------------------ */
+.fx-separator {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: sepMove 2.5s linear infinite;
+  margin: 20px 0;
+}
+
+@keyframes sepMove {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* ------------------------------
@@ -67,8 +120,7 @@ h1 {
 /* ------------------------------
    HERO BITCOIN LIVE + NETWORK
 ------------------------------ */
-.hero-btc,
-.btc-network {
+.hero-btc {
   margin: 2.5rem 0;
 }
 
@@ -147,89 +199,4 @@ footer {
 .top-btn:hover {
   background: #fff;
   color: #000;
-}
-/* ============================
-   FX — REVEAL
-   ============================ */
-.fx-reveal {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fx-reveal 0.8s ease-out forwards;
-}
-
-@keyframes fx-reveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================
-   FX — SEPARATOR ANIMÉ
-   ============================ */
-.fx-separator {
-  width: 0;
-  height: 2px;
-  background: #444;
-  margin: 12px 0 24px 0;
-  animation: fx-sep-grow 1s ease-out forwards;
-}
-
-@keyframes fx-sep-grow {
-  to { width: 60px; }
-}
-
-/* ============================
-   FX — UNDERLINE ANIMÉ
-   ============================ */
-.fx-underline {
-  position: relative;
-  display: inline-block;
-}
-
-.fx-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background: currentColor;
-  transition: width .3s ease;
-}
-
-.fx-underline:hover::after {
-  width: 100%;
-}
-.nostr-posts-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 700px) {
-  .nostr-posts-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.nostr-post-card {
-  border: 1px solid #333;
-  padding: 16px;
-  border-radius: 6px;
-  background: #111;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.nostr-post-meta {
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-.nostr-post-content {
-  font-size: 0.95rem;
-  line-height: 1.4;
-  white-space: pre-wrap;
 }
