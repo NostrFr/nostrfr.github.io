@@ -13,7 +13,6 @@
   <h1 class="reveal">NostrFr by famas</h1>
   <p>Outils Nostr & Bitcoin & expériences utilisateur</p>
   <div class="fx-separator"></div>
-
 </header>
 
 <main>
@@ -29,26 +28,17 @@
 
     <p class="id-label">Profil Ditto</p>
     <p class="id-value">
-      <a href="https://ditto.pub/npub1..." target="_blank" class="fx-underline">
-  ditto.pub / ketama
-</a>
-
+      <a href="https://ditto.pub/npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq"
+         target="_blank"
+         class="fx-underline">
+        ditto.pub / ketama
+      </a>
     </p>
 
     <p class="id-label">Lightning</p>
     <p class="id-value">ketama@rizful.com</p>
   </div>
 
-  <section class="nostr-posts">
-  <h2 class="hero-title fx-reveal">Derniers posts Nostr</h2>
-  <div class="fx-separator"></div>
-
-  <div id="nostr-posts-container" class="nostr-posts-grid">
-    <!-- Cartes générées automatiquement -->
-  </div>
-</section>
-
-  
   <!-- BITCOIN LIVE -->
   <section class="hero-btc">
     <h2 class="hero-title fx-reveal">Bitcoin — Live Timechain</h2>
@@ -78,19 +68,95 @@
     </div>
   </section>
 
-  <script>
+  <!-- DERNIERS POSTS NOSTR -->
+  <section class="nostr-posts">
+    <h2 class="hero-title fx-reveal">Derniers posts Nostr</h2>
+    <div class="fx-separator"></div>
+
+    <div id="nostr-posts-container" class="nostr-posts-grid">
+      <!-- Cartes générées automatiquement -->
+    </div>
+  </section>
+
+  <!-- ARTICLES -->
+  <section class="post-list">
+    <article>
+      <h2>
+        <a href="/posts/article-1.html" class="fx-underline">
+          Article 1 — Matrice vierge
+        </a>
+      </h2>
+      <p>Base éditoriale pour ton premier contenu.</p>
+    </article>
+  </section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+<!-- SCRIPT BITCOIN (version stable) -->
+<script>
+async function loadBTC() {
+  try {
+    /* Prix */
+    const priceRes = await fetch("https://mempool.space/api/v1/prices");
+    const priceData = await priceRes.json();
+    document.getElementById("btc-price").textContent =
+      priceData?.USD ? "$" + priceData.USD.toLocaleString() : "N/A";
+
+    /* Height */
+    const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
+    const heightData = await heightRes.json();
+    document.getElementById("btc-height").textContent =
+      typeof heightData === "number" ? heightData.toLocaleString() : "N/A";
+
+    /* Mempool */
+    const mempoolRes = await fetch("https://mempool.space/api/mempool");
+    const mempoolData = await mempoolRes.json();
+    document.getElementById("btc-mempool").textContent =
+      mempoolData?.count ? mempoolData.count.toLocaleString() + " tx" : "N/A";
+
+    /* Fees */
+    const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
+    const feesData = await feesRes.json();
+    document.getElementById("btc-fees").textContent =
+      feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
+
+  } catch (e) {
+    console.log("Erreur API mempool.space :", e);
+  }
+}
+
+loadBTC();
+setInterval(loadBTC, 30000);
+</script>
+
+<!-- SCRIPT NOSTR — Derniers posts -->
+<script>
 async function loadNostrPosts() {
   try {
     const npub = "npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq";
 
-    const res = await fetch("https://api.nostr.band/v0/events/" + npub);
-    const data = await res.json();
+    const res = await fetch("https://api.nostr.band/v0/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        authors: [npub],
+        kinds: [1],
+        limit: 6
+      })
+    });
 
+    const data = await res.json();
     const events = data?.events || [];
+
     const container = document.getElementById("nostr-posts-container");
     container.innerHTML = "";
 
-    events.slice(0, 6).forEach(ev => {
+    events.forEach(ev => {
       const content = ev?.content || "";
       const date = new Date(ev.created_at * 1000).toLocaleString("fr-FR");
 
@@ -113,102 +179,6 @@ async function loadNostrPosts() {
 loadNostrPosts();
 setInterval(loadNostrPosts, 60000);
 </script>
-
- 
-  <!-- ARTICLES -->
-  <section class="post-list">
-    <article>
-      <h2><a href="/posts/article-1.html" class="fx-underline">
-  Article 1 — Matrice vierge
-</a>
-</h2>
-      <p>Base éditoriale pour ton premier contenu.</p>
-    </article>
-  </section>
-
-</main>
-
-<footer>
-  <a href="#top" class="top-btn">↑ Haut de page</a>
-  <p>NostrFr — Blog souverain</p>
-</footer>
-
-<!-- SCRIPT BITCOIN (version stable, sans hashrate/difficulty) -->
-<script>
-async function loadBTC() {
-  try {
-    /* --- Prix BTC --- */
-    const priceRes = await fetch("https://mempool.space/api/v1/prices");
-    const priceData = await priceRes.json();
-    document.getElementById("btc-price").textContent =
-      priceData?.USD ? "$" + priceData.USD.toLocaleString() : "N/A";
-
-    /* --- Block Height --- */
-    const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
-    const heightData = await heightRes.json();
-    document.getElementById("btc-height").textContent =
-      typeof heightData === "number" ? heightData.toLocaleString() : "N/A";
-
-    /* --- Mempool --- */
-    const mempoolRes = await fetch("https://mempool.space/api/mempool");
-    const mempoolData = await mempoolRes.json();
-    document.getElementById("btc-mempool").textContent =
-      mempoolData?.count ? mempoolData.count.toLocaleString() + " tx" : "N/A";
-
-    /* --- Fees --- */
-    const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
-    const feesData = await feesRes.json();
-    document.getElementById("btc-fees").textContent =
-      feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
-
-    /* --- Hashrate --- */
-    const hashRes = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
-    const hashData = await hashRes.json();
-    document.getElementById("btc-hashrate").textContent =
-      hashData ? (hashData / 1e18).toFixed(2) : "N/A";
-
-    /* --- Difficulty + Adjustment --- */
-    const diffRes = await fetch("https://mempool.space/api/v1/difficulty-adjustment");
-    const diffData = await diffRes.json();
-
-    document.getElementById("btc-difficulty").textContent =
-      diffData?.difficulty
-        ? diffData.difficulty.toLocaleString()
-        : "N/A";
-
-    document.getElementById("btc-adjust").textContent =
-      diffData?.progressPercent
-        ? diffData.progressPercent.toFixed(2) + "%"
-        : "N/A";
-
-    /* --- Halving --- */
-    const halvingHeight = 1050000;
-    document.getElementById("btc-halving").textContent =
-      typeof heightData === "number"
-        ? (halvingHeight - heightData).toLocaleString() + " blocks"
-        : "N/A";
-
-    /* --- Mempool vMB --- */
-    document.getElementById("btc-vmb").textContent =
-      mempoolData?.vsize
-        ? (mempoolData.vsize / 1e6).toFixed(2) + " vMB"
-        : "N/A";
-
-    /* --- Block time --- */
-    document.getElementById("btc-blocktime").textContent =
-      diffData?.timeAvg
-        ? diffData.timeAvg.toFixed(1) + " min"
-        : "N/A";
-
-  } catch (e) {
-    console.log("Erreur API mempool.space :", e);
-  }
-}
-
-loadBTC();
-setInterval(loadBTC, 30000);
-</script>
-
 
 </body>
 </html>
