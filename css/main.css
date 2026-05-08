@@ -16,44 +16,61 @@ html, body {
 }
 
 /* ------------------------------
-   HEADER TYPO ANIMÉ
+   HEADER — SPLIT REVEAL
 ------------------------------ */
 .hero-header {
   text-align: left;
   padding: 20px 0 10px;
 }
 
+/* Conteneur du titre */
 .hero-title-anim {
   font-size: 2.4rem;
   font-weight: 700;
   letter-spacing: -1px;
   position: relative;
   display: inline-block;
+  overflow: hidden; /* essentiel */
+}
+
+/* Les deux moitiés du titre */
+.hero-title-anim span {
+  display: inline-block;
+  position: relative;
+}
+
+/* Partie gauche */
+.hero-title-anim .left {
+  transform: translateX(-100%);
   opacity: 0;
-  animation: title-reveal 1.2s ease-out forwards;
-  z-index: 5; /* Le texte principal reste au-dessus */
+  animation: split-left 0.8s ease-out forwards;
 }
 
-@keyframes title-reveal {
-  0% {
-    opacity: 0;
-    transform: translateY(12px);
-    filter: blur(4px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-  }
+/* Partie droite */
+.hero-title-anim .right {
+  transform: translateX(100%);
+  opacity: 0;
+  animation: split-right 0.8s ease-out forwards;
 }
 
+/* Animations */
+@keyframes split-left {
+  0% { transform: translateX(-100%); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes split-right {
+  0% { transform: translateX(100%); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Sous-titre */
 .hero-subtitle-anim {
   opacity: 0;
   transform: translateY(6px);
-  animation: subtitle-fade 1.4s ease-out forwards;
+  animation: subtitle-fade 1s ease-out forwards;
   animation-delay: 0.4s;
   font-size: 1rem;
   opacity: 0.7;
@@ -67,49 +84,7 @@ html, body {
 }
 
 /* ------------------------------
-   GLITCH QUI FAIT APPARAÎTRE LE TITRE
------------------------------- */
-
-/* Calques glitch AU-DESSUS du texte */
-.hero-title-anim::before,
-.hero-title-anim::after {
-  content: inherit; /* Safari-friendly */
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10; /* AU-DESSUS du texte */
-  mix-blend-mode: difference; /* Le texte apparaît au lieu de disparaître */
-}
-
-/* Calque cyan */
-.hero-title-anim::before {
-  color: #00eaff;
-}
-
-/* Calque magenta */
-.hero-title-anim::after {
-  color: #ff00c8;
-}
-
-/* Animation glitch */
-@keyframes glitch-lite {
-  0%   { opacity: 0; transform: translate(0,0); }
-  20%  { opacity: .5; transform: translate(-2px, -1px); }
-  40%  { opacity: .4; transform: translate(2px, 1px); }
-  60%  { opacity: .5; transform: translate(-1px, 1px); }
-  80%  { opacity: .3; transform: translate(1px, -1px); }
-  100% { opacity: 0; transform: translate(0,0); }
-}
-
-.hero-title-anim.glitch-active::before,
-.hero-title-anim.glitch-active::after {
-  animation: glitch-lite 0.25s ease-out forwards;
-}
-
-/* ------------------------------
-   SEPARATOR
+   SEPARATOR ANIMÉ
 ------------------------------ */
 .fx-separator {
   width: 100%;
