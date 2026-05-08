@@ -200,3 +200,50 @@ footer {
   background: #fff;
   color: #000;
 }
+/* ============================
+   GLITCH LÉGER SUR LE TITRE
+============================ */
+
+.hero-title-anim {
+  position: relative;
+  display: inline-block;
+}
+
+/* Calques glitch */
+.hero-title-anim::before,
+.hero-title-anim::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Calque cyan */
+.hero-title-anim::before {
+  color: #00eaff;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Calque magenta */
+.hero-title-anim::after {
+  color: #ff00c8;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Animation glitch courte */
+@keyframes glitch-lite {
+  0%   { opacity: 0; transform: translate(0,0); }
+  20%  { opacity: .4; transform: translate(-2px, -1px); }
+  40%  { opacity: .3; transform: translate(2px, 1px); }
+  60%  { opacity: .4; transform: translate(-1px, 1px); }
+  80%  { opacity: .2; transform: translate(1px, -1px); }
+  100% { opacity: 0; transform: translate(0,0); }
+}
+
+/* Déclenchement automatique après le reveal */
+.hero-title-anim.glitch-active::before,
+.hero-title-anim.glitch-active::after {
+  animation: glitch-lite 0.25s ease-out forwards;
+}
