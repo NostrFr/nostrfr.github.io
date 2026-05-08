@@ -148,25 +148,30 @@ async function loadBTC() {
     document.getElementById("btc-fees").textContent =
       feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
 
-    /* --- Hashrate --- */
-    const hashRes = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
-    const hashData = await hashRes.json();
-    document.getElementById("btc-hashrate").textContent =
-      hashData ? (hashData / 1e18).toFixed(2) : "N/A";
+    /* --- Hashrate (TimechainCalendar) --- */
+const hashRes = await fetch("https://timechaincalendar.com/api/v1/hashrate");
+const hashData = await hashRes.json();
+document.getElementById("btc-hashrate").textContent =
+  hashData?.hashrate
+    ? (hashData.hashrate / 1e18).toFixed(2)
+    : "N/A";
 
-    /* --- Difficulty + Adjustment --- */
-    const diffRes = await fetch("https://mempool.space/api/v1/difficulty-adjustment");
-    const diffData = await diffRes.json();
+/* --- Difficulty (TimechainCalendar) --- */
+const diffRes = await fetch("https://timechaincalendar.com/api/v1/difficulty");
+const diffData = await diffRes.json();
+document.getElementById("btc-difficulty").textContent =
+  diffData?.difficulty
+    ? diffData.difficulty.toLocaleString()
+    : "N/A";
 
-    document.getElementById("btc-difficulty").textContent =
-      diffData?.difficulty
-        ? diffData.difficulty.toLocaleString()
-        : "N/A";
+/* --- Next Adjustment (TimechainCalendar) --- */
+const adjRes = await fetch("https://timechaincalendar.com/api/v1/difficulty-adjustment");
+const adjData = await adjRes.json();
+document.getElementById("btc-adjust").textContent =
+  adjData?.progressPercent
+    ? adjData.progressPercent.toFixed(2) + "%"
+    : "N/A";
 
-    document.getElementById("btc-adjust").textContent =
-      diffData?.progressPercent
-        ? diffData.progressPercent.toFixed(2) + "%"
-        : "N/A";
 
     /* --- Halving --- */
     const halvingHeight = 1050000;
