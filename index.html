@@ -120,7 +120,7 @@
   <p>NostrFr — Blog souverain</p>
 </footer>
 
-<!-- SCRIPT BITCOIN LIVE -->
+<!-- SCRIPT BITCOIN LIVE + NETWORK STATS (VERSION FIXÉE) -->
 <script>
 async function loadBTC() {
   try {
@@ -128,52 +128,60 @@ async function loadBTC() {
     const priceRes = await fetch("https://mempool.space/api/v1/prices");
     const priceData = await priceRes.json();
     document.getElementById("btc-price").textContent =
-      "$" + priceData.USD.toLocaleString();
+      priceData?.USD ? "$" + priceData.USD.toLocaleString() : "N/A";
 
     /* Height */
     const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
     const heightData = await heightRes.json();
     document.getElementById("btc-height").textContent =
-      heightData.toLocaleString();
+      heightData ? heightData.toLocaleString() : "N/A";
 
     /* Mempool */
     const mempoolRes = await fetch("https://mempool.space/api/mempool");
     const mempoolData = await mempoolRes.json();
     document.getElementById("btc-mempool").textContent =
-      mempoolData.count.toLocaleString() + " tx";
+      mempoolData?.count ? mempoolData.count.toLocaleString() + " tx" : "N/A";
 
     /* Fees */
     const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
     const feesData = await feesRes.json();
     document.getElementById("btc-fees").textContent =
-      feesData.fastestFee.toFixed(0) + " sat/vB";
+      feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
 
     /* Hashrate */
     const hashRes = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
     const hashData = await hashRes.json();
     document.getElementById("btc-hashrate").textContent =
-      (hashData / 1e18).toFixed(2);
+      hashData ? (hashData / 1e18).toFixed(2) : "N/A";
 
     /* Difficulty + Adjustment */
     const diffRes = await fetch("https://mempool.space/api/v1/difficulty-adjustment");
     const diffData = await diffRes.json();
+
     document.getElementById("btc-difficulty").textContent =
-      diffData.difficulty.toLocaleString();
+      diffData?.difficulty ? diffData.difficulty.toLocaleString() : "N/A";
+
     document.getElementById("btc-adjust").textContent =
-      diffData.progressPercent.toFixed(2) + "%";
+      diffData?.progressPercent
+        ? diffData.progressPercent.toFixed(2) + "%"
+        : "N/A";
 
     /* Halving */
     const halvingHeight = 1050000;
     document.getElementById("btc-halving").textContent =
-      (halvingHeight - heightData).toLocaleString() + " blocks";
+      heightData
+        ? (halvingHeight - heightData).toLocaleString() + " blocks"
+        : "N/A";
 
     /* Mempool vMB */
     document.getElementById("btc-vmb").textContent =
-      (mempoolData.vsize / 1e6).toFixed(2) + " vMB";
+      mempoolData?.vsize
+        ? (mempoolData.vsize / 1e6).toFixed(2) + " vMB"
+        : "N/A";
 
     /* Block time */
     document.getElementById("btc-blocktime").textContent =
-      diffData.timeAvg.toFixed(1) + " min";
+      diffData?.timeAvg ? diffData.timeAvg.toFixed(1) + " min" : "N/A";
 
   } catch (e) {
     console.log("Erreur API mempool.space :", e);
@@ -186,3 +194,4 @@ setInterval(loadBTC, 30000);
 
 </body>
 </html>
+
