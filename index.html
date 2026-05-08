@@ -134,51 +134,7 @@ loadBTC();
 setInterval(loadBTC, 30000);
 </script>
 
-<!-- SCRIPT NOSTR — Derniers posts -->
-<script>
-async function loadNostrPosts() {
-  const pubkey = "c89ade949b276950aa5b468de81bb03e14c7c3dcf1b26c707db7d955ee22612a";
-  const container = document.getElementById("nostr-posts-container");
-  container.innerHTML = "";
 
-  const ws = new WebSocket("wss://relay.nostr.band/relay");
-
-  ws.onopen = () => {
-    ws.send(JSON.stringify([
-      "REQ",
-      "posts",
-      {
-        kinds: [1],
-        authors: [pubkey],
-        limit: 6
-      }
-    ]));
-  };
-
-  ws.onmessage = (msg) => {
-    const data = JSON.parse(msg.data);
-
-    if (data[0] === "EVENT") {
-      const ev = data[2];
-      const content = ev.content || "";
-      const date = new Date(ev.created_at * 1000).toLocaleString("fr-FR");
-
-      const card = document.createElement("div");
-      card.className = "nostr-post-card";
-
-      card.innerHTML = `
-        <div class="nostr-post-meta">${date}</div>
-        <div class="nostr-post-content">${content}</div>
-      `;
-
-      container.appendChild(card);
-    }
-  };
-
-  ws.onerror = (e) => console.log("Erreur WebSocket Nostr :", e);
-}
-loadNostrPosts();
-</script>
 
 
 
