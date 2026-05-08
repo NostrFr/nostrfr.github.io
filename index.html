@@ -137,27 +137,30 @@ setInterval(loadBTC, 30000);
 <!-- SCRIPT NOSTR — Derniers posts -->
 <script>
 async function loadNostrPosts() {
-  try {
-    const pubkey = "c89ade949b276950aa5b468de81bb03e14c7c3dcf1b26c707db7d955ee22612a";
+  const pubkey = "c89ade949b276950aa5b468de81bb03e14c7c3dcf1b26c707db7d955ee22612a";
+  const container = document.getElementById("nostr-posts-container");
+  container.innerHTML = "";
 
-    const postsRes = await fetch("https://api.nostr.band/v0/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        authors: [pubkey],
+  const ws = new WebSocket("wss://relay.nostr.band/relay");
+
+  ws.onopen = () => {
+    ws.send(JSON.stringify([
+      "REQ",
+      "posts",
+      {
         kinds: [1],
+        authors: [pubkey],
         limit: 6
-      })
-    });
+      }
+    ]));
+  };
 
-    const postsData = await postsRes.json();
-    const events = postsData?.events || [];
+  ws.onmessage = (msg) => {
+    const data = JSON.parse(msg.data);
 
-    const container = document.getElementById("nostr-posts-container");
-    container.innerHTML = "";
-
-    events.forEach(ev => {
-      const content = ev?.content || "";
+    if (data[0] === "EVENT") {
+      const ev = data[2];
+      const content = ev.content || "";
       const date = new Date(ev.created_at * 1000).toLocaleString("fr-FR");
 
       const card = document.createElement("div");
@@ -169,16 +172,14 @@ async function loadNostrPosts() {
       `;
 
       container.appendChild(card);
-    });
+    }
+  };
 
-  } catch (e) {
-    console.log("Erreur Nostr posts :", e);
-  }
+  ws.onerror = (e) => console.log("Erreur WebSocket Nostr :", e);
 }
-
 loadNostrPosts();
-setInterval(loadNostrPosts, 60000);
 </script>
+
 
 
 </body>
