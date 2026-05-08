@@ -119,7 +119,7 @@ async function loadBTC() {
     const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
     const heightData = await heightRes.json();
     document.getElementById("btc-height").textContent =
-      heightData ? heightData.toLocaleString() : "N/A";
+      typeof heightData === "number" ? heightData.toLocaleString() : "N/A";
 
     /* --- Mempool --- */
     const mempoolRes = await fetch("https://mempool.space/api/mempool");
@@ -133,10 +133,30 @@ async function loadBTC() {
     document.getElementById("btc-fees").textContent =
       feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
 
+    /* --- Hashrate --- */
+    const hashRes = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
+    const hashData = await hashRes.json();
+    document.getElementById("btc-hashrate").textContent =
+      hashData ? (hashData / 1e18).toFixed(2) : "N/A";
+
+    /* --- Difficulty + Adjustment --- */
+    const diffRes = await fetch("https://mempool.space/api/v1/difficulty-adjustment");
+    const diffData = await diffRes.json();
+
+    document.getElementById("btc-difficulty").textContent =
+      diffData?.difficulty
+        ? diffData.difficulty.toLocaleString()
+        : "N/A";
+
+    document.getElementById("btc-adjust").textContent =
+      diffData?.progressPercent
+        ? diffData.progressPercent.toFixed(2) + "%"
+        : "N/A";
+
     /* --- Halving --- */
     const halvingHeight = 1050000;
     document.getElementById("btc-halving").textContent =
-      heightData
+      typeof heightData === "number"
         ? (halvingHeight - heightData).toLocaleString() + " blocks"
         : "N/A";
 
@@ -146,9 +166,11 @@ async function loadBTC() {
         ? (mempoolData.vsize / 1e6).toFixed(2) + " vMB"
         : "N/A";
 
-    /* --- Block time (fallback simple) --- */
+    /* --- Block time --- */
     document.getElementById("btc-blocktime").textContent =
-      mempoolData ? "~10 min" : "N/A";
+      diffData?.timeAvg
+        ? diffData.timeAvg.toFixed(1) + " min"
+        : "N/A";
 
   } catch (e) {
     console.log("Erreur API mempool.space :", e);
@@ -158,6 +180,7 @@ async function loadBTC() {
 loadBTC();
 setInterval(loadBTC, 30000);
 </script>
+
 
 </body>
 </html>
