@@ -31,7 +31,7 @@ html, body {
   display: inline-block;
   opacity: 0;
   animation: title-reveal 1.2s ease-out forwards;
-  z-index: 3; /* Le texte reste toujours visible */
+  z-index: 5; /* Le texte principal reste au-dessus */
 }
 
 @keyframes title-reveal {
@@ -45,11 +45,8 @@ html, body {
     transform: translateY(0);
     filter: blur(0);
   }
-  80% {
-    text-shadow: 0 0 2px rgba(0,0,0,0.2);
-  }
   100% {
-    text-shadow: none;
+    opacity: 1;
   }
 }
 
@@ -70,34 +67,39 @@ html, body {
 }
 
 /* ------------------------------
-   GLITCH LÉGER — VERSION STABLE
+   GLITCH QUI FAIT APPARAÎTRE LE TITRE
 ------------------------------ */
+
+/* Calques glitch AU-DESSUS du texte */
 .hero-title-anim::before,
 .hero-title-anim::after {
-  content: inherit; /* FIX Safari/iPhone */
+  content: inherit; /* Safari-friendly */
   position: absolute;
   left: 0;
   top: 0;
   opacity: 0;
   pointer-events: none;
-  z-index: 1; /* Derrière le texte principal */
-  text-shadow: 0 0 2px rgba(0,0,0,0.25);
+  z-index: 10; /* AU-DESSUS du texte */
+  mix-blend-mode: difference; /* Le texte apparaît au lieu de disparaître */
 }
 
+/* Calque cyan */
 .hero-title-anim::before {
   color: #00eaff;
 }
 
+/* Calque magenta */
 .hero-title-anim::after {
   color: #ff00c8;
 }
 
+/* Animation glitch */
 @keyframes glitch-lite {
   0%   { opacity: 0; transform: translate(0,0); }
-  20%  { opacity: .4; transform: translate(-2px, -1px); }
-  40%  { opacity: .3; transform: translate(2px, 1px); }
-  60%  { opacity: .4; transform: translate(-1px, 1px); }
-  80%  { opacity: .2; transform: translate(1px, -1px); }
+  20%  { opacity: .5; transform: translate(-2px, -1px); }
+  40%  { opacity: .4; transform: translate(2px, 1px); }
+  60%  { opacity: .5; transform: translate(-1px, 1px); }
+  80%  { opacity: .3; transform: translate(1px, -1px); }
   100% { opacity: 0; transform: translate(0,0); }
 }
 
@@ -107,7 +109,7 @@ html, body {
 }
 
 /* ------------------------------
-   SEPARATOR ORIGINAL RÉPARÉ
+   SEPARATOR
 ------------------------------ */
 .fx-separator {
   width: 100%;
@@ -119,12 +121,8 @@ html, body {
 }
 
 @keyframes sepMove {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* ------------------------------
