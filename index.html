@@ -78,7 +78,42 @@
     </div>
   </section>
 
-  
+  <script>
+async function loadNostrPosts() {
+  try {
+    const npub = "npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq";
+
+    const res = await fetch("https://api.nostr.band/v0/events/" + npub);
+    const data = await res.json();
+
+    const events = data?.events || [];
+    const container = document.getElementById("nostr-posts-container");
+    container.innerHTML = "";
+
+    events.slice(0, 6).forEach(ev => {
+      const content = ev?.content || "";
+      const date = new Date(ev.created_at * 1000).toLocaleString("fr-FR");
+
+      const card = document.createElement("div");
+      card.className = "nostr-post-card";
+
+      card.innerHTML = `
+        <div class="nostr-post-meta">${date}</div>
+        <div class="nostr-post-content">${content}</div>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (e) {
+    console.log("Erreur Nostr posts :", e);
+  }
+}
+
+loadNostrPosts();
+setInterval(loadNostrPosts, 60000);
+</script>
+
  
   <!-- ARTICLES -->
   <section class="post-list">
