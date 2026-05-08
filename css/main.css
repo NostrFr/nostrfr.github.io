@@ -31,7 +31,7 @@ html, body {
   display: inline-block;
   opacity: 0;
   animation: title-reveal 1.2s ease-out forwards;
-  z-index: 3; /* FIX : le texte reste visible */
+  z-index: 3; /* Le texte reste toujours visible */
 }
 
 @keyframes title-reveal {
@@ -70,17 +70,17 @@ html, body {
 }
 
 /* ------------------------------
-   GLITCH LÉGER — FIX VISIBILITÉ
+   GLITCH LÉGER — VERSION STABLE
 ------------------------------ */
 .hero-title-anim::before,
 .hero-title-anim::after {
-  content: attr(data-text);
+  content: inherit; /* FIX Safari/iPhone */
   position: absolute;
   left: 0;
   top: 0;
   opacity: 0;
   pointer-events: none;
-  z-index: 1; /* FIX : derrière le texte */
+  z-index: 1; /* Derrière le texte principal */
   text-shadow: 0 0 2px rgba(0,0,0,0.25);
 }
 
