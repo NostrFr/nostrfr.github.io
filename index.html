@@ -124,82 +124,72 @@
 <script>
 async function loadBTC() {
   try {
-    /* --- Prix BTC --- */
-    const priceRes = await fetch("https://mempool.space/api/v1/prices");
-    const priceData = await priceRes.json();
-    document.getElementById("btc-price").textContent =
-      priceData?.USD ? "$" + priceData.USD.toLocaleString() : "N/A";
 
-    /* --- Block Height --- */
-    const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
-    const heightData = await heightRes.json();
+    /* --- HEIGHT --- */
+    const heightRes = await fetch("https://blockstream.info/api/blocks/tip/height");
+    const height = await heightRes.text();
+    const heightNum = parseInt(height);
     document.getElementById("btc-height").textContent =
-      typeof heightData === "number" ? heightData.toLocaleString() : "N/A";
+      heightNum.toLocaleString();
 
-    /* --- Mempool --- */
-    const mempoolRes = await fetch("https://mempool.space/api/mempool");
-    const mempoolData = await mempoolRes.json();
-    document.getElementById("btc-mempool").textContent =
-      mempoolData?.count ? mempoolData.count.toLocaleString() + " tx" : "N/A";
+    /* --- LAST BLOCK HASH --- */
+    const hashRes = await fetch("https://blockstream.info/api/block-height/" + heightNum);
+    const blockHash = await hashRes.text();
 
-    /* --- Fees --- */
-    const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
-    const feesData = await feesRes.json();
-    document.getElementById("btc-fees").textContent =
-      feesData?.fastestFee ? feesData.fastestFee + " sat/vB" : "N/A";
+    /* --- BLOCK DATA --- */
+    const blockRes = await fetch("https://blockstream.info/api/block/" + blockHash);
+    const blockData = await blockRes.json();
 
-    /* --- Hashrate (TimechainCalendar) --- */
-const hashRes = await fetch("https://timechaincalendar.com/api/v1/hashrate");
-const hashData = await hashRes.json();
-document.getElementById("btc-hashrate").textContent =
-  hashData?.hashrate
-    ? (hashData.hashrate / 1e18).toFixed(2)
-    : "N/A";
+    /* --- DIFFICULTY CALCULATION --- */
+    const bits = blockData.bits;
+    const exponent = bits >>> 24;
+    const mantissa = bits & 0xffffff;
+    const target = mantissa * 2 ** (8 * (exponent - 3));
+    const difficulty = 0xffff * 2 ** 208 / target;
 
-/* --- Difficulty (TimechainCalendar) --- */
-const diffRes = await fetch("https://timechaincalendar.com/api/v1/difficulty");
-const diffData = await diffRes.json();
-document.getElementById("btc-difficulty").textContent =
-  diffData?.difficulty
-    ? diffData.difficulty.toLocaleString()
-    : "N/A";
+    document.getElementById("btc-difficulty").textContent =
+      difficulty.toFixed(0).toLocaleString();
 
-/* --- Next Adjustment (TimechainCalendar) --- */
-const adjRes = await fetch("https://timechaincalendar.com/api/v1/difficulty-adjustment");
-const adjData = await adjRes.json();
-document.getElementById("btc-adjust").textContent =
-  adjData?.progressPercent
-    ? adjData.progressPercent.toFixed(2) + "%"
-    : "N/A";
+    /* --- BLOCK TIME (2 derniers blocs) --- */
+    const prevHash = blockData.prev_block;
+    const prevRes = await fetch("https://blockstream.info/api/block/" + prevHash);
+    const prevData = await prevRes.json();
 
+    const blockTime = blockData.timestamp - prevData.timestamp;
+    document.getElementById("btc-blocktime").textContent =
+      blockTime.toFixed(1) + " s";
 
-    /* --- Halving --- */
+    /* --- HASHRATE --- */
+    const hashrate = difficulty * 2 ** 32 / blockTime;
+    document.getElementById("btc-hashrate").textContent =
+      (hashrate / 1e18).toFixed(2);
+
+    /* --- NEXT ADJUSTMENT --- */
+    const blocksSince = heightNum % 2016;
+    const progress = (blocksSince / 2016) * 100;
+    document.getElementById("btc-adjust").textContent =
+      progress.toFixed(2) + "%";
+
+    /* --- HALVING --- */
     const halvingHeight = 1050000;
     document.getElementById("btc-halving").textContent =
-      typeof heightData === "number"
-        ? (halvingHeight - heightData).toLocaleString() + " blocks"
-        : "N/A";
+      (halvingHeight - heightNum).toLocaleString() + " blocks";
 
-    /* --- Mempool vMB --- */
+    /* --- MEMPOOL vMB (mempool.space OK) --- */
+    const mempoolRes = await fetch("https://mempool.space/api/mempool");
+    const mempoolData = await mempoolRes.json();
     document.getElementById("btc-vmb").textContent =
-      mempoolData?.vsize
-        ? (mempoolData.vsize / 1e6).toFixed(2) + " vMB"
-        : "N/A";
-
-    /* --- Block time --- */
-    document.getElementById("btc-blocktime").textContent =
-      diffData?.timeAvg
-        ? diffData.timeAvg.toFixed(1) + " min"
-        : "N/A";
+      (mempoolData.vsize / 1e6).toFixed(2) + " vMB";
 
   } catch (e) {
-    console.log("Erreur API mempool.space :", e);
+    console.log("Erreur BTC :", e);
   }
 }
 
 loadBTC();
 setInterval(loadBTC, 30000);
 </script>
+
 
 
 </body>
