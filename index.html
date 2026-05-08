@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>NostrFr by famas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header>
+  <h1 class="reveal">NostrFr by famas</h1>
+  <p>Outils Nostr & Bitcoin & expériences utilisateur</p>
+  <div class="separator"></div>
+</header>
+
+<main>
+
+  <!-- Carte ID -->
+  <div class="id-card">
+    <h3>Identité Nostr</h3>
+
+    <p class="id-label">npub</p>
+    <p class="id-value">
+      npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq
+    </p>
+
+    <p class="id-label">Profil Ditto</p>
+    <p class="id-value">
+      <a href="https://ditto.pub/npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq" target="_blank">
+        ditto.pub / ketama
+      </a>
+    </p>
+
+    <p class="id-label">Lightning</p>
+    <p class="id-value">ketama@rizful.com</p>
+  </div>
+
+  <!-- BITCOIN LIVE -->
+  <section class="hero-btc">
+    <h2 class="hero-title">Bitcoin — Live Timechain</h2>
+
+    <div class="hero-grid">
+
+      <div class="hero-card">
+        <p class="label">Prix BTC (USD)</p>
+        <p class="value" id="btc-price">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Block Height</p>
+        <p class="value" id="btc-height">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Mempool</p>
+        <p class="value" id="btc-mempool">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Fees (sat/vB)</p>
+        <p class="value" id="btc-fees">…</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BITCOIN NETWORK STATS -->
+  <section class="btc-network">
+    <h2 class="hero-title">Bitcoin — Network Stats</h2>
+
+    <div class="hero-grid">
+
+      <div class="hero-card">
+        <p class="label">Hashrate (EH/s)</p>
+        <p class="value" id="btc-hashrate">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Difficulty</p>
+        <p class="value" id="btc-difficulty">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Next Adjustment</p>
+        <p class="value" id="btc-adjust">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Halving</p>
+        <p class="value" id="btc-halving">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Mempool (vMB)</p>
+        <p class="value" id="btc-vmb">…</p>
+      </div>
+
+      <div class="hero-card">
+        <p class="label">Block Time</p>
+        <p class="value" id="btc-blocktime">…</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ARTICLES -->
+  <section class="post-list">
+    <article>
+      <h2><a href="/posts/article-1.html">Article 1 — Matrice vierge</a></h2>
+      <p>Base éditoriale pour ton premier contenu.</p>
+    </article>
+  </section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+<!-- SCRIPT BITCOIN LIVE -->
+<script>
+async function loadBTC() {
+  try {
+    /* Prix */
+    const priceRes = await fetch("https://mempool.space/api/v1/prices");
+    const priceData = await priceRes.json();
+    document.getElementById("btc-price").textContent =
+      "$" + priceData.USD.toLocaleString();
+
+    /* Height */
+    const heightRes = await fetch("https://mempool.space/api/blocks/tip/height");
+    const heightData = await heightRes.json();
+    document.getElementById("btc-height").textContent =
+      heightData.toLocaleString();
+
+    /* Mempool */
+    const mempoolRes = await fetch("https://mempool.space/api/mempool");
+    const mempoolData = await mempoolRes.json();
+    document.getElementById("btc-mempool").textContent =
+      mempoolData.count.toLocaleString() + " tx";
+
+    /* Fees */
+    const feesRes = await fetch("https://mempool.space/api/v1/fees/recommended");
+    const feesData = await feesRes.json();
+    document.getElementById("btc-fees").textContent =
+      feesData.fastestFee.toFixed(0) + " sat/vB";
+
+    /* Hashrate */
+    const hashRes = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
+    const hashData = await hashRes.json();
+    document.getElementById("btc-hashrate").textContent =
+      (hashData / 1e18).toFixed(2);
+
+    /* Difficulty + Adjustment */
+    const diffRes = await fetch("https://mempool.space/api/v1/difficulty-adjustment");
+    const diffData = await diffRes.json();
+    document.getElementById("btc-difficulty").textContent =
+      diffData.difficulty.toLocaleString();
+    document.getElementById("btc-adjust").textContent =
+      diffData.progressPercent.toFixed(2) + "%";
+
+    /* Halving */
+    const halvingHeight = 1050000;
+    document.getElementById("btc-halving").textContent =
+      (halvingHeight - heightData).toLocaleString() + " blocks";
+
+    /* Mempool vMB */
+    document.getElementById("btc-vmb").textContent =
+      (mempoolData.vsize / 1e6).toFixed(2) + " vMB";
+
+    /* Block time */
+    document.getElementById("btc-blocktime").textContent =
+      diffData.timeAvg.toFixed(1) + " min";
+
+  } catch (e) {
+    console.log("Erreur API mempool.space :", e);
+  }
+}
+
+loadBTC();
+setInterval(loadBTC, 30000);
+</script>
+
+</body>
+</html>
