@@ -138,20 +138,20 @@ setInterval(loadBTC, 30000);
 <script>
 async function loadNostrPosts() {
   try {
-    const npub = "npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq";
+    const pubkey = "c89ade949b276950aa5b468de81bb03e14c7c3dcf1b26c707db7d955ee22612a";
 
-    const res = await fetch("https://api.nostr.band/v0/search", {
+    const postsRes = await fetch("https://api.nostr.band/v0/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        authors: [npub],
+        authors: [pubkey],
         kinds: [1],
         limit: 6
       })
     });
 
-    const data = await res.json();
-    const events = data?.events || [];
+    const postsData = await postsRes.json();
+    const events = postsData?.events || [];
 
     const container = document.getElementById("nostr-posts-container");
     container.innerHTML = "";
@@ -179,6 +179,7 @@ async function loadNostrPosts() {
 loadNostrPosts();
 setInterval(loadNostrPosts, 60000);
 </script>
+
 
 </body>
 </html>
