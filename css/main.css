@@ -299,3 +299,8 @@ footer {
   border-top: 1px solid #000;
   font-size: 0.9rem;
 }
+/* Empêche le npub de déborder sur iPhone */
+.id-card p {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
