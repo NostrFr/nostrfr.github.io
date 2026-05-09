@@ -336,3 +336,21 @@ footer {
   color: #fff;
   text-decoration: underline;
 }
+/* ID CARD — inversion noir/blanc */
+.id-card {
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.id-card:hover {
+  background: #000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.id-card:hover a {
+  color: #fff;
+  text-decoration: underline;
+}
