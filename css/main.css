@@ -212,3 +212,51 @@ footer {
   color: #fff;
 }
 /* ------------------------------—
+/* ----------------------------------------------------
+   CARTES D’ARTICLES — STYLE BLOC SOUVERAIN
+---------------------------------------------------- */
+
+.post-card {
+  border: 1px solid #000;
+  background: #fff;
+  margin: 2rem 0;
+  transition: all 0.2s ease;
+}
+
+.post-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card-content {
+  padding: 1.4rem 1.6rem;
+}
+
+.post-card-date {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.post-card-title {
+  font-size: 1.35rem;
+  margin: 0 0 0.6rem 0;
+}
+
+.post-card-excerpt {
+  font-size: 1rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* HOVER — INVERSION TOTALE */
+.post-card:hover {
+  background: #000;
+  border-color: #fff;
+}
+
+.post-card:hover .post-card-content {
+  color: #fff;
+}
