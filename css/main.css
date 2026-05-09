@@ -311,3 +311,13 @@ footer {
   overflow-wrap: break-word;
   white-space: normal;
 }
+/* Fix overflow iPhone for long sentences */
+.id-card,
+.id-card p,
+.id-card h2,
+.id-sub,
+.id-claim {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
