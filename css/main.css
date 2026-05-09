@@ -304,3 +304,10 @@ footer {
   word-break: break-all;
   overflow-wrap: break-word;
 }
+/* Fix npub overflow on iPhone */
+.id-card p,
+.id-card code {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
