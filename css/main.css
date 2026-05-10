@@ -270,3 +270,9 @@ footer {
   white-space: normal !important;
 }
 
+/* Anti-débordement pour chaînes longues dans la carte ID */
+.long-string {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+}
