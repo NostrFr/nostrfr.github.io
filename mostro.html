@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Mostro — Échanger Bitcoin en P2P</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header class="hero-header">
+
+  <h1 class="hero-title-anim">
+    <span class="left">Mostro</span>
+    <span class="right">P2P Bitcoin souverain</span>
+  </h1>
+
+  <p class="hero-subtitle-anim">
+    Échanger Bitcoin ↔ fiat via Nostr — sans intermédiaire, dans l’esprit de Satoshi.
+  </p>
+
+  <div class="fx-separator"></div>
+</header>
+
+<nav class="article-nav">
+  <a href="/" class="home-btn">← Retour au blog</a>
+</nav>
+
+<main>
+
+<!-- SECTION 1 — Introduction -->
+<section class="article-section">
+  <h2 class="section-title">Introduction — Mostro, le P2P Bitcoin dans l’esprit de Satoshi</h2>
+  <p>
+    Mostro est un protocole d’échange <strong>Bitcoin ↔ fiat</strong> construit entièrement sur <strong>Nostr</strong>,
+    sans intermédiaire, sans plateforme, sans garde, sans KYC. Ce n’est pas un exchange : c’est un <strong>protocole</strong>.
+  </p>
+  <p>
+    Deux individus peuvent échanger de la valeur directement grâce à :
+  </p>
+  <ul>
+    <li>un <strong>ordre public</strong> (NIP‑69)</li>
+    <li>des <strong>mises à jour immuables</strong> (NIP‑33)</li>
+    <li>des <strong>messages privés chiffrés</strong> (NIP‑59)</li>
+    <li>un daemon qui orchestre l’échange sans jamais détenir les fonds</li>
+  </ul>
+  <p>
+    Mostro applique la vision de Satoshi : pair‑à‑pair réel, messages signés, réseau ouvert, vérification indépendante.
+    C’est un outil d’autonomie et de souveraineté.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 2 — Lire l’orderbook -->
+<section class="article-section">
+  <h2 class="section-title">1. Lire l’orderbook Mostro</h2>
+  <p>
+    Pour lire les ordres Mostro, l’outil le plus efficace est <strong>NostrDebug</strong> :
+    <a href="https://nostrdebug.com/relay" target="_blank">nostrdebug.com/relay</a>.
+  </p>
+
+  <h3>Ordres pending</h3>
+  <pre><code>["REQ","nostrfr-1",{
+  "kinds":[38383],
+  "#s":["pending"],
+  "#z":["order"],
+  "limit":50
+}]</code></pre>
+
+  <h3>BUY uniquement</h3>
+  <pre><code>["REQ","nostrfr-buy",{
+  "kinds":[38383],
+  "#k":["buy"],
+  "#s":["pending"],
+  "#z":["order"]
+}]</code></pre>
+
+  <h3>SELL uniquement</h3>
+  <pre><code>["REQ","nostrfr-sell",{
+  "kinds":[38383],
+  "#k":["sell"],
+  "#s":["pending"],
+  "#z":["order"]
+}]</code></pre>
+
+  <h3>Ordres EUR</h3>
+  <pre><code>["REQ","nostrfr-eur",{
+  "kinds":[38383],
+  "#f":["EUR"],
+  "#s":["pending"],
+  "#z":["order"]
+}]</code></pre>
+
+  <h3>Ordre précis (UUID)</h3>
+  <pre><code>["REQ","nostrfr-one",{
+  "kinds":[38383],
+  "#d":["&lt;UUID&gt;"]
+}]</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 3 — Passer un ordre -->
+<section class="article-section">
+  <h2 class="section-title">2. Passer un ordre Mostro (EVENT 38383)</h2>
+  <p>
+    Passer un ordre = publier un event <strong>signé</strong> via NIP‑07, envoyé au relay Mostro :
+    <code>wss://relay.mostro.network</code>.
+  </p>
+
+  <h3>Tags obligatoires</h3>
+  <ul>
+    <li><code>d</code> — identifiant unique</li>
+    <li><code>k</code> — buy / sell</li>
+    <li><code>f</code> — fiat</li>
+    <li><code>s</code> — statut initial</li>
+    <li><code>amt</code> — montant sats</li>
+    <li><code>fa</code> — montant fiat</li>
+    <li><code>pm</code> — méthode de paiement</li>
+    <li><code>premium</code> — premium %</li>
+    <li><code>network</code> — mainnet</li>
+    <li><code>layer</code> — lightning</li>
+    <li><code>z</code> — order</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 4 — Exemple ordre -->
+<section class="article-section">
+  <h2 class="section-title">3. Exemple : achat 100€ en espèces (cash)</h2>
+
+  <p><strong>UUID</strong> : <code>cash-eur-100-fr-2026</code></p>
+  <p><strong>Montant sats</strong> : <code>300000</code></p>
+  <p><strong>Timestamp</strong> : <code>1778202000</code></p>
+
+  <h3>Event non signé</h3>
+  <pre><code>{
+  "kind": 38383,
+  "created_at": 1778202000,
+  "tags": [
+    ["d", "cash-eur-100-fr-2026"],
+    ["k", "buy"],
+    ["f", "EUR"],
+    ["s", "pending"],
+    ["amt", "300000"],
+    ["fa", "100"],
+    ["pm", "Cash (rdv via Nostr)"],
+    ["premium", "0"],
+    ["network", "mainnet"],
+    ["layer", "lightning"],
+    ["z", "order"]
+  ],
+  "content": ""
+}</code></pre>
+
+  <h3>Signature via nos2x</h3>
+  <pre><code>let ev = await window.nostr.signEvent({...})</code></pre>
+
+  <h3>Publication</h3>
+  <pre><code>["EVENT", { ...event_signé... }]</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 5 — Prendre un ordre -->
+<section class="article-section">
+  <h2 class="section-title">4. Prendre un ordre (NIP‑59)</h2>
+  <p>
+    Prendre un ordre = envoyer un message privé chiffré au daemon Mostro (EVENT 1059).
+  </p>
+
+  <pre><code>["EVENT",{
+  "kind":1059,
+  "created_at":1778202500,
+  "tags":[
+    ["p","&lt;pubkey_daemon&gt;"],
+    ["d","cash-eur-100-fr-2026"]
+  ],
+  "content":"{\"type\":\"take-order\",\"d\":\"cash-eur-100-fr-2026\"}",
+  "sig":"&lt;signature&gt;"
+}]</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 6 — Suivre un ordre -->
+<section class="article-section">
+  <h2 class="section-title">5. Suivre un ordre (NIP‑33)</h2>
+  <p>
+    Mostro met à jour un ordre via des events 38383 partageant le même <code>d</code>.
+  </p>
+
+  <pre><code>["REQ","nostrfr-follow",{
+  "kinds":[38383],
+  "#d":["cash-eur-100-fr-2026"]
+}]</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 7 — Installer nos2x -->
+<section class="article-section">
+  <h2 class="section-title">6. Installer nos2x (NIP‑07)</h2>
+
+  <h3>Installation</h3>
+  <ul>
+    <li>Chrome : <code>https://chrome.google.com/webstore/detail/nos2x/npbghhgfgnkakjkjgfgjbljcgopglcbo</code></li>
+    <li>Firefox : <code>https://addons.mozilla.org/en-US/firefox/addon/nos2x/</code></li>
+    <li>Source : <a href="https://github.com/fiatjaf/nos2x" target="_blank">github.com/fiatjaf/nos2x</a></li>
+  </ul>
+
+  <h3>Tester la signature</h3>
+  <pre><code>window.nostr.getPublicKey()</code></pre>
+  <pre><code>window.nostr.signEvent({ kind:1, content:"test" })</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 8 — Workflow -->
+<section class="article-section">
+  <h2 class="section-title">7. Workflow souverain complet</h2>
+  <ul>
+    <li><strong>Lire</strong> : NostrDebug</li>
+    <li><strong>Passer un ordre</strong> : nos2x + WebsocketKing</li>
+    <li><strong>Prendre un ordre</strong> : nos2x + app Mostro</li>
+    <li><strong>Suivre</strong> : NostrDebug</li>
+    <li><strong>Héberger</strong> : GitHub Pages / Neocities</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SECTION 9 — Conclusion -->
+<section class="article-section">
+  <h2 class="section-title">Conclusion</h2>
+  <p>
+    Avec NostrDebug, WebsocketKing et nos2x, Mostro devient un protocole transparent, inspectable et souverain.
+    Un échange Bitcoin ↔ fiat sans intermédiaire, fidèle à l’esprit originel de Bitcoin.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SOURCES -->
+<section class="article-section">
+  <h2 class="section-title">Sources (version courte)</h2>
+  <ul>
+    <li><strong>Mostro</strong> — GitHub MostroP2P</li>
+    <li><strong>Nostr</strong> — NIP‑01, 07, 33, 59, 69</li>
+    <li><strong>Outils</strong> — NostrDebug, WebsocketKing, nos2x</li>
+    <li><strong>Bitcoin</strong> — Whitepaper de Satoshi Nakamoto</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+</body>
+</html>
