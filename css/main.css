@@ -240,6 +240,18 @@ html, body {
 }
 
 /* ------------------------------
+   FIX ANTI-DÉBORDEMENT ARTICLES
+------------------------------ */
+.article-section p,
+.article-section strong,
+.article-section {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+p
+
+/* ------------------------------
    FOOTER
 ------------------------------ */
 footer {
