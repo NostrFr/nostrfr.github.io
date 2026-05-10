@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>NostrMail — Messagerie souveraine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header class="hero-header">
+
+  <h1 class="hero-title-anim">
+    <span class="left">NostrMail</span>
+    <span class="right">Messagerie souveraine</span>
+  </h1>
+
+  <p class="hero-subtitle-anim">
+    Ton npub comme adresse email. Messages chiffrés. Aucun serveur.
+  </p>
+
+  <div class="fx-separator"></div>
+</header>
+
+<nav class="article-nav">
+  <a href="/" class="home-btn">← Retour au blog</a>
+</nav>
+
+<main>
+
+  <!-- SECTION 1 — Présentation générale -->
+  <section class="article-section">
+    <h2 class="section-title">Présentation générale</h2>
+    <p>
+      NostrMail propose une manière nouvelle d’envoyer et de recevoir des messages : utiliser Nostr comme couche de transport, et ton npub comme adresse.
+      Pas de compte, pas d’inscription, pas de serveur mail personnel.
+      Les messages deviennent des événements chiffrés, relayés en pair‑à‑pair, lisibles uniquement par le destinataire.
+      C’est une alternative souveraine à l’email classique, sans infrastructure lourde et sans dépendance à un fournisseur.
+    </p>
+    <p>
+      Mon adresse NostrMail, fournie automatiquement par le service, est :<br>
+      <strong>npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq@uid.ovh</strong>
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 2 — Identité -->
+  <section class="article-section">
+    <h2 class="section-title">Identité : la clé remplace l’adresse</h2>
+    <p>
+      Dans NostrMail, ton identité n’est pas une adresse email : c’est ton npub.
+      Tu te connectes avec ton signer (Amber, extension navigateur), tu signes, et tu es prêt à envoyer des messages.
+      Aucune création de compte, aucun mot de passe, aucune récupération.
+      Ton identité est cryptographique, portable, indépendante de toute plateforme.
+      Ton npub devient ton point d’entrée dans la messagerie.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 3 — Fonctionnement -->
+  <section class="article-section">
+    <h2 class="section-title">Fonctionnement : messages = events chiffrés</h2>
+    <p>
+      Chaque message envoyé via NostrMail est un événement chiffré, signé avec ta clé privée.
+      Le client interroge les relais que tu utilises, filtre les messages qui te sont destinés, et les déchiffre localement.
+      Les messages ne sont pas stockés sur un serveur : ils vivent dans Nostr, et leur lecture se fait côté client.
+      Tu écris, tu signes, tu publies.
+      Le transport est pair‑à‑pair, sans intermédiaire.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 4 — Relays -->
+  <section class="article-section">
+    <h2 class="section-title">Relays : la seule configuration obligatoire</h2>
+    <p>
+      Pour que NostrMail fonctionne, il suffit d’avoir des relays configurés.
+      Ce sont eux qui transportent les messages privés (NIP‑04 / NIP‑17).
+      Sans relays : pas de transport, pas de messages.
+      Vérifier leur paramétrage est essentiel : trois à cinq relays fiables suffisent pour assurer une messagerie stable et souveraine.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 5 — Bridge SMTP -->
+  <section class="article-section">
+    <h2 class="section-title">Le bridge SMTP : communiquer avec l’email classique</h2>
+    <p>
+      NostrMail peut fonctionner entièrement dans Nostr, mais il propose aussi un pont vers l’email traditionnel.
+      Pour envoyer un message vers une adresse email classique, il faut un serveur SMTP : c’est lui qui fait le relais entre Nostr et le monde de l’email.
+    </p>
+    <p>
+      Certains services NostrMail fournissent un SMTP automatique, déjà configuré : dans ce cas, tu n’as rien à set up, et l’envoi vers email externe fonctionne immédiatement.
+      C’est le cas de mon adresse :<br>
+      <strong>npub1ezdda9ymya54p2jmg6x7sxas8c2v0s7u7xexcuraklv4tm3zvy4qyg83yq@uid.ovh</strong>
+    </p>
+    <p>
+      Le message est chiffré, transmis via Nostr, puis relayé par le SMTP‑bridge vers le destinataire.
+      Le bridge est optionnel : tu peux rester 100% Nostr si tu le souhaites.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 6 — Avantages -->
+  <section class="article-section">
+    <h2 class="section-title">Avantages souverains</h2>
+    <p>
+      NostrMail supprime tout ce qui rend l’email fragile ou centralisé :
+      pas de serveur IMAP/SMTP à maintenir,
+      pas de fournisseur qui lit ou analyse tes messages,
+      pas de filtrage opaque,
+      pas de dépendance à une plateforme.
+      Les messages sont chiffrés, signés, relayés, et lisibles uniquement par les personnes concernées.
+      C’est une messagerie qui ne repose sur aucune autorité centrale.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 7 — Limites -->
+  <section class="article-section">
+    <h2 class="section-title">Limites actuelles</h2>
+    <p>
+      Comme tout outil jeune, NostrMail a encore des contraintes :
+      l’UX est en construction,
+      les pièces jointes sont limitées,
+      le bridge SMTP reste un point de dépendance pour communiquer avec l’email classique,
+      et l’adoption est encore faible.
+      Mais la base est solide : identité cryptographique, transport pair‑à‑pair, chiffrement natif.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- SECTION 8 — Pourquoi NostrMail compte -->
+  <section class="article-section">
+    <h2 class="section-title">Pourquoi NostrMail compte</h2>
+    <p>
+      Parce qu’il propose une vision différente de la messagerie :
+      une identité qui ne dépend de personne,
+      un transport qui ne repose sur aucun serveur,
+      un chiffrement natif,
+      une architecture simple et résiliente.
+      NostrMail montre ce que peut devenir la communication privée dans un web souverain :
+      un protocole, une clé, et des messages qui ne passent plus par des intermédiaires.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+</body>
+</html>
