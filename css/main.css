@@ -239,17 +239,6 @@ html, body {
   color: #fff;
 }
 
-/* ------------------------------
-   FIX ANTI-DÉBORDEMENT ARTICLES
------------------------------- */
-.article-section p,
-.article-section strong,
-.article-section {
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
-}
-p
 
 /* ------------------------------
    FOOTER
@@ -272,4 +261,12 @@ footer {
 .top-btn:hover {
   background: #000;
   color: #fff;
+}
+/* Fix anti-débordement pour les longues chaînes dans les articles */
+.article-section p,
+.article-section strong,
+.article-section {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
 }
