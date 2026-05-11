@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>NWAK — Le Manuel souverain du protocole Nostr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header class="hero-header">
+  <h1 class="hero-title-anim">
+    <span class="left">NWAK</span>
+    <span class="right">Le microscope du protocole Nostr</span>
+  </h1>
+  <p class="hero-subtitle-anim">
+    Comprendre, décortiquer et vérifier les events Nostr — au niveau du JSON signé, sans interface, sans illusions.
+  </p>
+  <div class="fx-separator"></div>
+</header>
+
+<nav class="article-nav">
+  <a href="/" class="home-btn">← Retour au blog</a>
+</nav>
+
+<main>
+
+<!-- PREFACE -->
+<section class="article-section">
+  <h2 class="section-title">Préface — Pourquoi ce manuel existe</h2>
+  <p>
+    NWAK, pour <strong>Nostr Web Army Knife</strong>, n’est pas un client Nostr. Ce n’est pas une timeline, ni un
+    relay, ni un wallet. C’est un <strong>microscope</strong> : un outil qui te montre le protocole Nostr au niveau
+    où il ne ment pas — celui de l’<strong>event JSON signé</strong>.
+  </p>
+  <p>
+    Là où les clients te montrent des “posts”, NWAK te montre des <strong>events</strong> : leur <code>kind</code>,
+    leur <code>pubkey</code>, leurs <code>tags</code>, leur <code>content</code>, leur <code>id</code>, leur
+    <code>sig</code>. Il enlève l’interface, les réactions, les likes, les fils, et ne garde que la mécanique
+    cryptographique.
+  </p>
+  <p>
+    Ce manuel a un objectif simple : te donner une <strong>compréhension souveraine</strong> de Nostr. Tu ne verras
+    plus jamais un event comme avant.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 1 — Grammaire -->
+<section class="article-section">
+  <h2 class="section-title">1. La grammaire du protocole Nostr</h2>
+  <p>
+    Un event Nostr est une phrase cryptographique. Pour le lire correctement, il faut en comprendre la grammaire
+    interne :
+  </p>
+  <ul>
+    <li><strong>Sujet</strong> : <code>pubkey</code> — qui parle ?</li>
+    <li><strong>Verbe</strong> : <code>kind</code> — que fait cet event ?</li>
+    <li><strong>Compléments</strong> : <code>tags</code> — à quoi / à qui / à quel contexte se rattache‑t‑il ?</li>
+    <li><strong>Contexte</strong> : <code>created_at</code> — quand cette phrase a‑t‑elle été prononcée ?</li>
+    <li><strong>Message</strong> : <code>content</code> — quel est le contenu brut ?</li>
+    <li><strong>Preuve</strong> : <code>sig</code> — qui en prend la responsabilité cryptographique ?</li>
+    <li><strong>Empreinte</strong> : <code>id</code> — quelle est l’empreinte unique de cette phrase ?</li>
+  </ul>
+  <p>
+    Comprendre Nostr, c’est accepter qu’un event n’est pas un “post”, mais une <strong>structure cryptographique
+    signée</strong> qui représente un message. NWAK te montre cette structure sans filtre.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 2 — Anatomie -->
+<section class="article-section">
+  <h2 class="section-title">2. Anatomie d’un event Nostr</h2>
+  <p>
+    Un event Nostr valide est un objet JSON strict, défini par NIP‑01. Les champs fondamentaux sont :
+  </p>
+  <ul>
+    <li><strong><code>kind</code></strong> — le type d’event (note, metadata, replaceable, Mostro, etc.)</li>
+    <li><strong><code>pubkey</code></strong> — la clé publique de l’émetteur</li>
+    <li><strong><code>created_at</code></strong> — le timestamp Unix</li>
+    <li><strong><code>tags</code></strong> — un tableau de tableaux, chaque tag étant une liste de chaînes</li>
+    <li><strong><code>content</code></strong> — le contenu brut (texte, JSON, données sérialisées)</li>
+    <li><strong><code>id</code></strong> — le hash SHA‑256 du contenu canonique de l’event</li>
+    <li><strong><code>sig</code></strong> — la signature ECDSA secp256k1 de l’<code>id</code></li>
+  </ul>
+  <p>
+    Si un seul de ces éléments est incohérent (hash incorrect, signature invalide, structure JSON cassée), l’event
+    cesse d’être un event Nostr valide. NWAK est l’outil qui te permet de vérifier cette cohérence, champ par champ.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 3 — NWAK comme microscope -->
+<section class="article-section">
+  <h2 class="section-title">3. NWAK — Le microscope du protocole</h2>
+  <p>
+    NWAK est une web‑app statique qui tourne entièrement dans ton navigateur. Pas de backend, pas de base de données,
+    pas de tracking. Tu peux la cloner, la builder, l’héberger toi‑même. Elle te permet de :
+  </p>
+  <ul>
+    <li><strong>décoder</strong> des events (JSON, bech32, note, nevent, npub, nsec)</li>
+    <li><strong>encoder</strong> des structures dans les formats attendus par les relays</li>
+    <li><strong>calculer</strong> l’<code>id</code> d’un event selon NIP‑01</li>
+    <li><strong>signer</strong> un event avec une clé privée ou via NIP‑07</li>
+    <li><strong>inspecter</strong> tous les champs et tags d’un event</li>
+    <li><strong>comparer</strong> un event généré par un client avec un event “canonique”</li>
+  </ul>
+  <p>
+    Pour un cryptographe, NWAK est un laboratoire de signatures. Pour un développeur, c’est un débogueur universel.
+    Pour un utilisateur souverain, c’est un outil de vérification : il ne fait plus confiance à un client, il vérifie
+    ce qu’il signe.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 4 — Workflow souverain -->
+<section class="article-section">
+  <h2 class="section-title">4. Workflow souverain — De l’event brut à la publication</h2>
+  <p>
+    Voici le workflow complet, du JSON brut à la diffusion sur un relay, en utilisant NWAK comme centre de gravité.
+  </p>
+
+  <h3>Étape 1 — Construire l’event brut</h3>
+  <p>
+    Tu définis :
+  </p>
+  <ul>
+    <li><strong>kind</strong> — type d’event (par exemple <code>1</code> pour une note)</li>
+    <li><strong>content</strong> — ton message ou tes données</li>
+    <li><strong>tags</strong> — les relations (réponses, références, protocoles, etc.)</li>
+    <li><strong>created_at</strong> — timestamp Unix</li>
+    <li><strong>pubkey</strong> — ta clé publique</li>
+  </ul>
+
+  <h3>Étape 2 — Calculer l’ID</h3>
+  <p>
+    NWAK calcule l’<code>id</code> en appliquant la procédure NIP‑01 : sérialisation canonique, puis hash SHA‑256.
+    Cet <code>id</code> est l’empreinte unique de l’event.
+  </p>
+
+  <h3>Étape 3 — Signer l’event</h3>
+  <p>
+    Tu signes l’<code>id</code> avec ta clé privée (nsec) via :
+  </p>
+  <ul>
+    <li>une extension NIP‑07 (nos2x, Alby, etc.)</li>
+    <li>un outil comme nsecBunker</li>
+    <li>une librairie (nostr‑tools, etc.)</li>
+    <li>ou directement dans NWAK si tu gères la clé manuellement</li>
+  </ul>
+
+  <h3>Étape 4 — Vérifier la cohérence</h3>
+  <p>
+    Tu vérifies dans NWAK que :
+  </p>
+  <ul>
+    <li>l’<code>id</code> correspond bien au contenu</li>
+    <li>la <code>sig</code> est valide pour cette <code>pubkey</code></li>
+    <li>les <code>tags</code> sont bien formés</li>
+    <li>le <code>kind</code> est cohérent avec l’usage</li>
+  </ul>
+
+  <h3>Étape 5 — Publier sur un relay</h3>
+  <p>
+    Tu copies l’event signé et tu le publies via :
+  </p>
+  <ul>
+    <li>WebsocketKing (ou équivalent)</li>
+    <li>un client Nostr</li>
+    <li>un script maison</li>
+  </ul>
+  <p>
+    Le message envoyé au relay est de la forme :
+  </p>
+  <pre><code>["EVENT", { ...event_signé... }]</code></pre>
+
+  <h3>Étape 6 — Confirmer la réception</h3>
+  <p>
+    Le relay répond typiquement :
+  </p>
+  <pre><code>["OK","&lt;id&gt;",true,""]</code></pre>
+  <p>
+    Cela signifie simplement : “j’ai reçu et accepté cet event”. Le relay ne “valide” pas ton message au sens
+    applicatif : il le stocke ou le rejette selon ses règles.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 5 — Signer -->
+<section class="article-section">
+  <h2 class="section-title">5. Signer un event — Cas d’usage</h2>
+  <p>
+    Signer un event, c’est produire une preuve cryptographique que tu en es l’auteur. C’est l’acte d’identité
+    fondamental dans Nostr. Quelques cas d’usage typiques :
+  </p>
+
+  <h3>5.1 Note simple (kind 1)</h3>
+  <p>
+    Tu écris un message texte, tu définis <code>kind:1</code>, tu signes, tu publies. C’est le cas le plus simple :
+    une note publique.
+  </p>
+
+  <h3>5.2 Signature via NIP‑07</h3>
+  <p>
+    Un client ou une page web appelle <code>window.nostr.signEvent(event)</code>. L’extension NIP‑07 affiche une
+    demande de signature, signe l’event et renvoie l’objet complet. NWAK te permet de vérifier que ce qui a été signé
+    correspond bien à ce que tu crois avoir signé.
+  </p>
+
+  <h3>5.3 Event Mostro (kind 38383)</h3>
+  <p>
+    Un ordre Mostro est un event avec une structure stricte (tags <code>d</code>, <code>k</code>, <code>f</code>,
+    <code>s</code>, <code>amt</code>, <code>fa</code>, <code>pm</code>, <code>premium</code>, <code>network</code>,
+    <code>layer</code>, <code>z</code>). La signature est indispensable : sans elle, l’ordre n’existe pas pour le
+    daemon Mostro. NWAK permet d’inspecter et de vérifier ces events.
+  </p>
+
+  <h3>5.4 Replaceable events (NIP‑33)</h3>
+  <p>
+    Un replaceable event (profil, article, manifeste, configuration) partage un même tag <code>d</code> et un
+    <code>kind</code> spécifique (par exemple 30000). Chaque mise à jour est un nouvel event signé qui remplace le
+    précédent. NWAK te permet de vérifier que la structure et la signature sont correctes.
+  </p>
+
+  <h3>5.5 Messages privés (NIP‑59)</h3>
+  <p>
+    Un message privé est un event chiffré (par exemple kind 1059) avec un tag <code>p</code> pointant vers la
+    <code>pubkey</code> du destinataire. Le contenu est chiffré, mais l’event reste signé et visible. NWAK permet
+    d’inspecter la structure, même si le contenu reste illisible.
+  </p>
+
+  <h3>5.6 Signature hors navigateur</h3>
+  <p>
+    Tu peux signer des events avec des outils comme <code>nostr-tools</code>, des scripts maison ou des systèmes
+    comme nsecBunker. NWAK devient alors l’outil de vérification externe : tu y colles l’event pour confirmer que
+    tout est cohérent.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 6 — Publier -->
+<section class="article-section">
+  <h2 class="section-title">6. Publier un event — Cas d’usage</h2>
+  <p>
+    Publier un event, c’est l’envoyer à un ou plusieurs relays via WebSocket. Quelques scénarios typiques :
+  </p>
+
+  <h3>6.1 Publication simple</h3>
+  <p>
+    Tu envoies :
+  </p>
+  <pre><code>["EVENT",{ ...event_signé... }]</code></pre>
+  <p>
+    Le relay répond avec un <code>["OK", ...]</code>. L’event est désormais stocké (ou non) selon la politique du relay.
+  </p>
+
+  <h3>6.2 Replaceable events</h3>
+  <p>
+    Pour un replaceable event (NIP‑33), le relay remplace l’ancienne version par la nouvelle, en se basant sur le
+    couple <code>kind</code> + tag <code>d</code> + <code>pubkey</code>. NWAK te permet de vérifier que l’event
+    publié est bien celui que tu voulais.
+  </p>
+
+  <h3>6.3 Events Mostro</h3>
+  <p>
+    Pour Mostro, tu publies sur <code>wss://relay.mostro.network</code>. Le daemon lit les events kind 38383, interprète
+    les tags, et orchestre les échanges. NWAK est l’outil idéal pour inspecter ces events avant publication.
+  </p>
+
+  <h3>6.4 Messages privés</h3>
+  <p>
+    Tu publies un event chiffré (NIP‑59). Le relay ne voit que la structure : il stocke l’event sans comprendre le
+    contenu. Seul le destinataire peut déchiffrer. NWAK te permet de vérifier que la structure est correcte.
+  </p>
+
+  <h3>6.5 Multi‑relays</h3>
+  <p>
+    Tu peux envoyer le même event signé à plusieurs relays. Nostr n’est pas un “serveur central”, mais un ensemble de
+    mémoires distribuées. NWAK te garantit que l’event que tu diffuses est cohérent, quel que soit le relay.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 7 — Illusions -->
+<section class="article-section">
+  <h2 class="section-title">7. Les illusions du protocole</h2>
+  <p>
+    Les clients Nostr créent des illusions utiles, mais dangereuses si tu veux comprendre le protocole. NWAK les
+    fait tomber une par une.
+  </p>
+  <ul>
+    <li><strong>Illusion :</strong> “Je poste un message.”<br>
+        <strong>Réalité :</strong> tu signes un JSON et tu le diffuses.</li>
+    <li><strong>Illusion :</strong> “Les relays valident le contenu.”<br>
+        <strong>Réalité :</strong> ils stockent ou rejettent selon leurs règles, sans interpréter ton intention.</li>
+    <li><strong>Illusion :</strong> “Les DMs sont invisibles.”<br>
+        <strong>Réalité :</strong> les events privés sont chiffrés, mais visibles comme structures.</li>
+    <li><strong>Illusion :</strong> “Un event = un post.”<br>
+        <strong>Réalité :</strong> un event est une structure cryptographique qui peut représenter un post, un ordre,
+        un profil, un contrat, un message, un état.</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 8 — Cartographie mentale -->
+<section class="article-section">
+  <h2 class="section-title">8. Cartographie mentale du protocole Nostr</h2>
+  <p>
+    Pour penser Nostr correctement, il est utile de le voir comme un empilement de couches :
+  </p>
+  <ul>
+    <li><strong>Couche cryptographique</strong> — clés, signatures, hash</li>
+    <li><strong>Couche événementielle</strong> — events, kinds, tags</li>
+    <li><strong>Couche relay</strong> — stockage, diffusion, politiques</li>
+    <li><strong>Couche client</strong> — interface, timeline, UX</li>
+    <li><strong>Couche souveraine</strong> — vérification, audit, introspection (NWAK)</li>
+  </ul>
+  <p>
+    NWAK se situe au centre de la couche souveraine : c’est l’outil qui te permet de voir ce que les autres couches
+    font réellement.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 9 — Exemples commentés -->
+<section class="article-section">
+  <h2 class="section-title">9. Exemples d’events commentés</h2>
+  <p>
+    Quelques exemples d’events typiques que tu peux coller dans NWAK pour les analyser.
+  </p>
+
+  <h3>9.1 Event Mostro (ordre)</h3>
+  <pre><code>{
+  "kind": 38383,
+  "created_at": 1778202000,
+  "tags": [
+    ["d", "cash-eur-100-fr-2026"],
+    ["k", "buy"],
+    ["f", "EUR"],
+    ["s", "pending"],
+    ["amt", "300000"],
+    ["fa", "100"],
+    ["pm", "Cash (rdv via Nostr)"],
+    ["premium", "0"],
+    ["network", "mainnet"],
+    ["layer", "lightning"],
+    ["z", "order"]
+  ],
+  "content": "",
+  "pubkey": "&lt;pubkey&gt;",
+  "id": "&lt;id&gt;",
+  "sig": "&lt;signature&gt;"
+}</code></pre>
+  <p>
+    Chaque tag a un rôle précis. NWAK te permet de vérifier que l’<code>id</code> et la <code>sig</code> sont cohérents
+    avec ce contenu.
+  </p>
+
+  <h3>9.2 Event replaceable (NIP‑33)</h3>
+  <pre><code>{
+  "kind": 30000,
+  "created_at": 1778202000,
+  "tags": [
+    ["d", "profil-fr"],
+    ["name", "Famas"],
+    ["l", "fr"]
+  ],
+  "content": "{\"bio\":\"Texte souverain\"}",
+  "pubkey": "&lt;pubkey&gt;",
+  "id": "&lt;id&gt;",
+  "sig": "&lt;signature&gt;"
+}</code></pre>
+
+  <h3>9.3 Event minimal (note)</h3>
+  <pre><code>{
+  "kind": 1,
+  "created_at": 1778202000,
+  "tags": [],
+  "content": "Hello Nostr",
+  "pubkey": "&lt;pubkey&gt;",
+  "id": "&lt;id&gt;",
+  "sig": "&lt;signature&gt;"
+}</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 10 — Erreurs fréquentes -->
+<section class="article-section">
+  <h2 class="section-title">10. Erreurs fréquentes et diagnostics</h2>
+  <p>
+    NWAK est particulièrement utile pour diagnostiquer les erreurs suivantes :
+  </p>
+  <ul>
+    <li><strong>Signature invalide</strong> — la <code>sig</code> ne correspond pas à l’<code>id</code> et à la
+        <code>pubkey</code>.</li>
+    <li><strong>ID incorrect</strong> — le hash ne correspond pas au contenu réel de l’event.</li>
+    <li><strong>Timestamp incohérent</strong> — <code>created_at</code> trop ancien ou trop futur.</li>
+    <li><strong>Tags mal formés</strong> — tags non conformes aux NIP (taille, structure, valeurs).</li>
+    <li><strong>Kind incorrect</strong> — usage d’un <code>kind</code> inadapté au protocole utilisé.</li>
+    <li><strong>Replaceable mal structuré</strong> — absence ou incohérence du tag <code>d</code>.</li>
+    <li><strong>Event Mostro incomplet</strong> — tags obligatoires manquants.</li>
+    <li><strong>Encodage bech32 incorrect</strong> — npub / nsec / nevent mal encodés.</li>
+  </ul>
+  <p>
+    Dans tous ces cas, NWAK sert de référence : ce qu’il considère comme valide est, par définition, conforme au
+    protocole.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 11 — Cas d’usage avancés -->
+<section class="article-section">
+  <h2 class="section-title">11. Cas d’usage avancés</h2>
+  <ul>
+    <li><strong>Vérifier un event Mostro</strong> — coller l’event, inspecter les tags, vérifier la signature.</li>
+    <li><strong>Comprendre un NIP</strong> — prendre un exemple d’event dans la spec, le passer dans NWAK, observer
+        comment l’<code>id</code> est calculé.</li>
+    <li><strong>Déboguer un client maison</strong> — comparer ce que ton code génère avec ce que NWAK considère valide.</li>
+    <li><strong>Vérifier ce que tu signes via NIP‑07</strong> — auditer les events générés par une extension.</li>
+    <li><strong>Auditer un event reçu</strong> — vérifier la signature, la structure, les tags, la cohérence globale.</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 12 — Guide REQ -->
+<section class="article-section">
+  <h2 class="section-title">12. Guide REQ — Requêtes essentielles</h2>
+  <p>
+    Quelques requêtes Nostr (REQ) utiles pour explorer le réseau en parallèle de NWAK.
+  </p>
+
+  <h3>Lire un event précis</h3>
+  <pre><code>["REQ","debug-1",{
+  "ids":["&lt;id&gt;"]
+}]</code></pre>
+
+  <h3>Lire tous les events d’un pubkey</h3>
+  <pre><code>["REQ","debug-2",{
+  "authors":["&lt;pubkey&gt;"]
+}]</code></pre>
+
+  <h3>Filtrer par kind</h3>
+  <pre><code>["REQ","debug-3",{
+  "kinds":[1]
+}]</code></pre>
+
+  <h3>Filtrer par tag</h3>
+  <pre><code>["REQ","debug-4",{
+  "#d":["&lt;valeur&gt;"]
+}]</code></pre>
+
+  <h3>Lire un replaceable event (NIP‑33)</h3>
+  <pre><code>["REQ","debug-5",{
+  "kinds":[30000],
+  "authors":["&lt;pubkey&gt;"]
+}]</code></pre>
+
+  <h3>Lire un message privé (NIP‑59)</h3>
+  <pre><code>["REQ","debug-6",{
+  "kinds":[1059],
+  "authors":["&lt;pubkey&gt;"]
+}]</code></pre>
+
+  <h3>Lire un order Mostro</h3>
+  <pre><code>["REQ","debug-7",{
+  "kinds":[38383],
+  "#z":["order"]
+}]</code></pre>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 13 — Vision -->
+<section class="article-section">
+  <h2 class="section-title">13. Nostr en 2030 — NWAK comme outil de vérité</h2>
+  <p>
+    Nostr n’est pas un réseau social : c’est une <strong>infrastructure d’identité, de diffusion et de souveraineté</strong>.
+    Les clients actuels changeront, les UX évolueront, les relays apparaîtront et disparaîtront. Ce qui restera, ce
+    sont les <strong>events signés</strong>.
+  </p>
+  <p>
+    Dans cette perspective, NWAK garde une place centrale : c’est l’outil qui permet de vérifier, d’auditer, de
+    comprendre. Tant que Nostr existera, il y aura besoin d’un microscope pour regarder ses events. NWAK est ce
+    microscope.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CONCLUSION -->
+<section class="article-section">
+  <h2 class="section-title">Conclusion — La souveraineté par la compréhension</h2>
+  <p>
+    Signer, c’est prouver. Publier, c’est diffuser. Comprendre, c’est reprendre le contrôle. NWAK ne t’aide pas à
+    “poster plus vite”, il t’aide à <strong>voir plus clairement</strong> ce que tu fais réellement sur le réseau.
+  </p>
+  <p>
+    Tu ne produis plus des “posts”. Tu produis des <strong>events signés</strong>, propagés sur un réseau ouvert,
+    vérifiables par tous. Ce manuel n’est pas un simple tutoriel : c’est une méthode pour penser Nostr comme un
+    protocole, pas comme une application.
+  </p>
+  <p>
+    NWAK est la lampe torche braquée sur l’architecture de Nostr. À toi de décider ce que tu veux éclairer.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- SOURCES -->
+<section class="article-section">
+  <h2 class="section-title">Sources (version courte)</h2>
+  <ul>
+    <li><strong>NWAK</strong> — Nostr Web Army Knife (fiatjaf)</li>
+    <li><strong>Nostr</strong> — NIP‑01, 07, 33, 59</li>
+    <li><strong>Mostro</strong> — Protocole P2P Bitcoin ↔ fiat sur Nostr</li>
+    <li><strong>Outils</strong> — NostrDebug, WebsocketKing, nos2x</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+</body>
+</html>
