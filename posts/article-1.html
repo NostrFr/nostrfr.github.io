@@ -1,181 +1,330 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Nostr Francophone 🇫🇷⚡ — Article 1</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/main.css">
+  <meta charset="utf-8">
+  <title>Nostr — Le Guide Total Définitif</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body id="top">
 
 <header class="hero-header">
-
-  <!-- TITRE SPLIT REVEAL -->
   <h1 class="hero-title-anim">
     <span class="left">Nostr</span>
-    <span class="right">Francophone 🇫🇷⚡</span>
+    <span class="right">Le Guide Total Définitif</span>
   </h1>
-
   <p class="hero-subtitle-anim">
-    Starter pack communautaire pour découvrir, suivre et renforcer l’écosystème francophone sur Nostr.
+    Le protocole social souverain — expliqué comme un système, un langage et une révolution silencieuse.
   </p>
-
   <div class="fx-separator"></div>
 </header>
-  <nav class="article-nav">
+
+<nav class="article-nav">
   <a href="/" class="home-btn">← Retour au blog</a>
 </nav>
 
-
 <main>
 
-  <!-- SECTION 1 — Présentation -->
+  <!-- PRÉFACE -->
   <section class="article-section">
-    <h2 class="section-title">Présentation du pack</h2>
+    <h2 class="section-title">Préface — Le problème que Nostr résout vraiment</h2>
     <p>
-      Le pack <strong>Nostr Francophone 🇫🇷⚡</strong> est une liste communautaire destinée à rassembler les comptes francophones actifs sur Nostr. 
-      Il permet aux nouveaux arrivants comme aux utilisateurs confirmés de découvrir rapidement des profils pertinents, 
-      d’élargir leur réseau et de renforcer la présence francophone sur le protocole.
+      Internet a été construit sur des protocoles ouverts. Les réseaux sociaux ont été construits sur des plateformes
+      fermées. Résultat : identités captives, contenus filtrés, relations monétisées, comptes fragiles.
+    </p>
+    <p>
+      Nostr répond à une question simple :
+      <strong>comment recréer un espace social où personne ne peut t’effacer, te posséder ou te redéfinir ?</strong>
+    </p>
+    <p>
+      La réponse tient en quelques briques : une clé, une signature, un event, un relay. C’est tout. Et c’est suffisant
+      pour reconstruire un monde social entier.
     </p>
   </section>
 
   <div class="fx-separator"></div>
 
-  <!-- SECTION 2 — Comment rejoindre -->
+  <!-- 1. MODÈLE MENTAL -->
   <section class="article-section">
-    <h2 class="section-title">Comment rejoindre le pack</h2>
+    <h2 class="section-title">1. Modèle mental — Ce que Nostr est vraiment</h2>
     <p>
-      Pour faire partie du pack, vous pouvez :
+      Pour comprendre Nostr, il faut casser trois illusions :
     </p>
     <ul>
-      <li>faire une demande via :  
-        <a href="https://nostr-tools.up.railway.app/packs/francophone/request" target="_blank">
-          nostr-tools.up.railway.app/packs/francophone/request
-        </a>
-      </li>
-      <li>ou envoyer un DM à <strong>maxiim3@primal.net</strong></li>
+      <li><strong>Nostr n’est pas un réseau social</strong> : c’est un protocole.</li>
+      <li><strong>Les clients ne sont pas des plateformes</strong> : ce sont des fenêtres interchangeables.</li>
+      <li><strong>Les relays ne sont pas des “serveurs” au sens Web2</strong> : ce sont des mémoires distribuées.</li>
     </ul>
     <p>
-      Le pack est ouvert à tous les créateurs, développeurs, curateurs, passionnés et utilisateurs francophones souhaitant contribuer à l’écosystème.
+      Nostr est un <strong>protocole de transport d’événements signés</strong>. Une infrastructure minimale, robuste,
+      indifférente à l’interface, comparable à SMTP pour l’email : le protocole ne se soucie pas de l’UI.
     </p>
   </section>
 
   <div class="fx-separator"></div>
 
-  <!-- SECTION 3 — Pourquoi c’est important -->
+  <!-- 2. L’EVENT -->
   <section class="article-section">
-    <h2 class="section-title">Pourquoi ce pack est important</h2>
+    <h2 class="section-title">2. L’event — La brique fondamentale</h2>
     <p>
-      La communauté francophone sur Nostr est en pleine croissance. 
-      Ce pack facilite :
+      Un event Nostr est une phrase cryptographique. Il contient :
     </p>
     <ul>
-      <li>la découverte de nouveaux comptes</li>
-      <li>la visibilité des créateurs francophones</li>
-      <li>la création de connexions entre utilisateurs</li>
-      <li>la diffusion de contenu via le hashtag <strong>#NostrFR</strong></li>
+      <li><strong>pubkey</strong> — qui parle</li>
+      <li><strong>kind</strong> — ce qu’il fait (note, article, réaction, zap, etc.)</li>
+      <li><strong>tags</strong> — à quoi / à qui ça se rattache</li>
+      <li><strong>created_at</strong> — quand</li>
+      <li><strong>content</strong> — ce qui est dit</li>
+      <li><strong>id</strong> — empreinte (hash)</li>
+      <li><strong>sig</strong> — signature (responsabilité)</li>
     </ul>
     <p>
-      Construisons ensemble un espace francophone solide, souverain et résilient.
+      Les clients appellent ça un post, un DM, un zap, un article, un live, un ordre Mostro. Le protocole, lui, ne voit
+      qu’un <strong>event signé</strong>. Cette indifférence est la source de sa puissance : tout peut être modélisé
+      comme un event.
     </p>
   </section>
 
   <div class="fx-separator"></div>
 
-  <!-- SECTION 4 — Liste complète des pubkeys -->
+  <!-- 3. IDENTITÉ -->
   <section class="article-section">
-    <h2 class="section-title">Comptes inclus dans le pack</h2>
-    <p>Voici la liste complète des clés publiques (pubkeys) présentes dans l’événement Nostr :</p>
-
-    <pre class="pubkey-list">
-c89ade949b276950aa5b468de81bb03e14c7c3dcf1b26c707db7d955ee22612a
-15a1989c2c483f6c6f18f2dda1033897a003669f449fc2fda4fa2fb6c9210900
-1e020553bade21e260a025d1ff68aca1e5b3f809ae54bb41b0a4dd36f015201f
-19ad8c9e27a69e66899315c8d611d3b075f44720f8357b37286b2a41a6c18280
-1378eb088a0cd3e410d977b07ad82deddd275d93d5790b3f7db25652554a21f2
-dc44f9c4a59a3d1f98d9ad39ccbca740eb433c3de79261857f04d3da285bd13b
-f1aa40704b6cccbaabebf6aedbfdb009cae5b926efe84e86abee006d340b3ce3
-fc0b3dbed99af92b6c48759ba25990aee121f5b804eb9c6ba1393c65a337df2e
-a50d5ddaea0e56c0cc8862614b83fb5a43cfca8f7e895dc82942cd52bb4d9088
-532d830dffe09c13e75e8b145c825718fc12b0003f61d61e9077721c7fff93cb
-1e67de3754171071d3cf9b44b6e546bd94fd0a2ca3fb4dbbb1b054685c9116e4
-1a185dc8599ed32b5969ea2f7f33b179310dca5f9c6d024f6475371c3699dfbc
-8781fe5ddc7a247b1a1e91ac3fb3eba77be553120dd60507f71e0b174900ffa8
-d0bf8568d6f025f4f6ad0700c64230a0bea238a72fc2396a334baa8f4db3e76f
-57ec0276798a590a259402e56b0d769313b1858bb93fe57829714fcd7f607819
-d974c6d79bec644a486be679d9410824931d85d2f8aa3c1c476522cb58da89bd
-98a5bfe0691dc6f7414bc145c3d96a26dcc0f42f541e30448ec6384c425c7b5b
-caad62a0a67bc431885c466decf39c761688500d76e3a2512cae5738169558b0
-41a5199bf6336dca2bc8f725b96692f0031bdb8c917aaa7c1c0dd1f8da29bdf3
-182052d256f486269994e4ff65c5d2601109f874fdfb373d113e72fbe48c3d7a
-18bff4c2b651fa582e6b906129adf6ceb68eb4c1e13668af63cd454d59c4898b
-f0349d01621b2ed76cd1f0927d0eb45a468f42ab6346f5a51c732ba446b24a7c
-b1a5bb8ac72802d54fd3f80253ad67ab7cf8a1e0e16881e3e765bb254ff91ecc
-fa7201580b0f531d3d12facc95690336c07c4e51f1158153275c5c7fae82722c
-c689b5ca107b2bbac8ebdf65401f3903e425665bd5a84bc36e25577d989fc6b2
-3ed7fd020e113dfdb66ba2129f131ce7a46b9fb6b7838eb5a5d660dbc0d0e745
-64314cb861dc10c1810085ae312a11050505e456d4da547c10635757f91fe024
-998a4b3a313d9619447f4f07426a19a8de29dd693c76fde985860bb75904d06a
-657047e4f532a25ec516db989a3ad3003c39179387f841d8b42a54e5313e1881
-b59a21b0c6e6444d461e968ea1530c20c70e0e1c7fe73e8e4f5237c785f61d49
-2c270882f1f5633abcac4bf419137a94f75f72e91bead50ff4e531cf63954cec
-ffd375eb40eb486656a028edbc83825f58ff0d5c4a1ba22fe7745d284529ed08
-f26fec257dfe4eca68cd11b93b72f72bb5e01ee23cb46d5000128afd492dcef8
-5c80fe953bbe6a0600bd63a666e22ebb2bd7fc27c92ee3121b43ac1fcf92bba2
-b2847109666c80afece659cd74d556092a936d3329b99b592f3c44d8435e2f59
-24d368c140ee66d55a6e07ae32280d323e6333177c65684b1e82ed5ecf00d317
-9a449ed465de20e5196a46c6af83e452d44398832d9ac4747dc2b5ac55a7614f
-ff4860b564e410cf4376a9e7c3176a199d715d09b9b0d40de8d3cd51ec577553
-8ba66f4c897835957d68ee4ef6abe59ad767b76c68fa1923db21e5fd59175b61
-479535f65ed8cb7671db1243dbbfdcbf861fd1f75880cade5328d369f450fdc6
-5ed0443aafa49ccc09b997c06b8f13c4da85b52d04fd838004b7ef9f5ad85e3e
-ceb4a5a3e6398d2be4a379c04c3f2864887221406dae0a2d6cef96c080d0c2a9
-66b9c9f4d053346fa2c0c2beb68eb3e187ec9bd80bf6f4bf493b7518be119bf3
-ffc02f52149834f127a7b046f8b5172ecf68b51d430a97ec8b02cf8f83244f85
-6f14e9c5093cabf93d11866f5602caccf34f4b12b5e355905ec4c4595db56a93
-21acc9f2d156dcf5b1d1d72a733de7b7bb31fc8b654630e8381db245815ce41a
-27bfc7ddf50abf0a8249c57bce0dbcb214980cc10c03ddb691fb1f94cb7cb8d1
-df20c69354bdc4607d179db612bae536c7e59ebc4850dade7e431287336fdfe7
-703050af4e4646ba73aba871490955e2d7f0b096f0558b66a11b36cfe8b8b4df
-d25c06f65469b9b2d6e7cf5d86662f8448e8df01e0aba6dc7dcbbe91119a3c43
-59910559069f548cad882dff7eda65f40b1b54a456271a48f31cdb4ea6e76a2f
-9650bab82237dc226831a7b5e64ad40180ef71ae78bea1152315576e6bc07247
-c6583f832b2b73f9eec22c3ba9bfa8c3dce75aad3348bcf67969b60b6444a4df
-19cdf936d9e92ed858d0e1361b46e56fa480f96a4571064636d9982a75198b4d
-06b49f3f448006adef154bb19e8570a4271075930d90fb4a32bee09263bfc500
-9dcd2dd191232e26a5780a8b45fdb5bf3b96689be38d2a78b0d191f00163b575
-5a8e581f16a012e24d2a640152ad562058cb065e1df28e907c1bfa82c150c8ba
-b7a07661869d6f68fd61659207f4f8c80e69587c06b453c975d067b86aeeee04
-b0510a0c238fcf43a9bcc059ce0c22db747efc529cec95f246302a3a12716ced
-30dd2f140bd29988afd0554d930fac44ac9f7d9813ba6a2d66b43f00a81a6f93
-1c1ab1bb4bdc61f22327d5674943ef87e49708ab38bc95157df41009fb7c7dbf
-3f3ff7adb39159c42c0aa16d53c0483bfbfad57df22a9e9e9364a306741eb2cf
-e56ec2cb00211804b9caaae9604803b778969977f7b98895881ee4ed4daf72e8
-87ea671286cc46a16989a8c8c73fc09208fd42c56df2a555c04d9825772c6cd1
-d0d8b5942be6df6df9b82acbd9d42d91fc5b987a8b12b3754dc2ca4705f82c4a
-bdcde18e3858cc133d79874e0f744356f74d499528db021bbe69850ceb18ef18
-8823e34b0f663c3301d746e9684c1ba8154848ecd86c26e0ffc8deba829feca9
-b8851a06dfd79d48fc325234a15e9a46a32a0982a823b54cdf82514b9b120ba1
-7cd5f5886be286fa7f85daa304049b06730deb8f13d35fbeff02116102454296
-6a72db8ef3f3b9ee5ecd808ed6d0631d1e4dda5c5dadf07887104d33957eba48
-e05a55973c30ad370aba8e4e0dc2880f3d986b34a8eb3f932ff7655bdcf6915d
-13407bcc790032c5fd17670677d815b27219cd4b52f46326d8ad5c6a87b32002
-e4f149dcb75dc9322c0f51ad55d85b57ee6ded3342ab813f2df15a75995f1efe
-b094eac9db6df90fdf646bd05609a251bb414db5c7849a0db166f93608de7f76
-4d7842051782e0d3feb034d150adc2b6bae4ee3b49786793bffa468b6f5b96b3
-abd5d326d9471b08d441c804f11459f8cc7ff4d31115fda26b23dad9a799493b
-    </pre>
+    <h2 class="section-title">3. Identité — npub, nsec, souveraineté</h2>
+    <p>
+      Sur Nostr, ton identité n’est pas un compte : c’est une <strong>clé publique</strong> (<code>npub</code>). Tout ce
+      que tu es sur le réseau découle de cette clé : profil, notes, articles, zaps, DMs, listes, communautés.
+    </p>
+    <p>
+      La clé privée (<code>nsec</code>) signe tout. Elle prouve que c’est bien toi. Elle engage tout. Elle est ton
+      pouvoir absolu — et ton point de fragilité : si tu la perds, tu perds ton identité ; si tu la leaks, tu perds ta
+      souveraineté.
+    </p>
+    <p>
+      Pensée à l’envers : ce n’est plus “tu rejoins un service”, c’est “les services doivent accepter ta clé”.
+    </p>
   </section>
 
   <div class="fx-separator"></div>
 
-  <!-- SECTION 5 — Conclusion -->
+  <!-- 4. RELAYS -->
   <section class="article-section">
-    <h2 class="section-title">Conclusion</h2>
+    <h2 class="section-title">4. Relays — Le réseau sous le protocole</h2>
     <p>
-      Le pack <strong>Nostr Francophone 🇫🇷⚡</strong> est un outil simple et puissant pour renforcer la présence francophone sur Nostr. 
-      Rejoignez‑le, partagez‑le, contribuez‑y — et aidons ensemble à construire un espace souverain, ouvert et résilient.
+      Un relay :
+    </p>
+    <ul>
+      <li>reçoit des events,</li>
+      <li>décide de les stocker ou non,</li>
+      <li>les renvoie à ceux qui les demandent.</li>
+    </ul>
+    <p>
+      Il ne valide pas ton intention, ne comprend pas ton contenu, ne gère pas ton identité. C’est un
+      <strong>disque dur partagé</strong>, pas une plateforme.
+    </p>
+    <p>
+      Angles morts :
+    </p>
+    <ul>
+      <li>un relay peut disparaître,</li>
+      <li>un relay peut filtrer,</li>
+      <li>un relay peut être payant ou spécialisé,</li>
+      <li>rien ne garantit qu’un event sera conservé partout.</li>
+    </ul>
+    <p>
+      Nostr n’impose pas la justice : il impose la <strong>possibilité</strong> de reconstruire ton propre réseau de
+      relays.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 5. CLIENTS -->
+  <section class="article-section">
+    <h2 class="section-title">5. Clients — Les illusions utiles</h2>
+    <p>
+      Les clients (Damus, Amethyst, Primal, Nostria, etc.) créent des illusions :
+    </p>
+    <ul>
+      <li>“post”</li>
+      <li>“like”</li>
+      <li>“DM”</li>
+      <li>“thread”</li>
+      <li>“communauté”</li>
+      <li>“live”</li>
+      <li>“zap”</li>
+    </ul>
+    <p>
+      Sous le capot, ce ne sont que des <strong>kinds</strong> différents, des <strong>tags</strong> différents, des
+      conventions d’affichage.
+    </p>
+    <p>
+      Exemple :
+    </p>
+    <ul>
+      <li>un DM : event chiffré, visible mais illisible,</li>
+      <li>un zap : event de paiement + event de notification,</li>
+      <li>un article : event long‑form (NIP‑23),</li>
+      <li>un live : events de signalisation + vidéo ailleurs.</li>
+    </ul>
+    <p>
+      Si tu ne vois que l’interface, tu restes prisonnier du client. Si tu vois les events, tu deviens
+      <strong>souverain</strong>.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 6. NIPs -->
+  <section class="article-section">
+    <h2 class="section-title">6. NIPs — La bibliothèque des règles du jeu</h2>
+    <p>
+      Les NIPs (Nostr Improvement Proposals) définissent les formats, comportements, extensions, conventions. Ce ne sont
+      pas des lois : ce sont des <strong>accords sociaux techniques</strong>.
+    </p>
+
+    <h3>6.1 NIPs essentiels (niveau novice)</h3>
+    <ul>
+      <li><strong>NIP‑01</strong> — Events &amp; protocol</li>
+      <li><strong>NIP‑05</strong> — Identité DNS</li>
+      <li><strong>NIP‑07</strong> — Signature via navigateur</li>
+      <li><strong>NIP‑19</strong> — Encodage bech32 (npub, nsec, nprofile, nevent)</li>
+      <li><strong>NIP‑23</strong> — Articles long‑form</li>
+      <li><strong>NIP‑25</strong> — Réactions</li>
+      <li><strong>NIP‑33</strong> — Replaceable events</li>
+      <li><strong>NIP‑47</strong> — Nostr Wallet Connect (zaps)</li>
+      <li><strong>NIP‑65</strong> — Relay list metadata</li>
+    </ul>
+
+    <h3>6.2 NIPs avancés</h3>
+    <ul>
+      <li><strong>NIP‑09</strong> — Deletion</li>
+      <li><strong>NIP‑13</strong> — Proof‑of‑Work</li>
+      <li><strong>NIP‑21</strong> — <code>nostr:</code> URI</li>
+      <li><strong>NIP‑28</strong> — Channels</li>
+      <li><strong>NIP‑40</strong> — Expiration</li>
+      <li><strong>NIP‑42</strong> — Auth</li>
+      <li><strong>NIP‑50</strong> — Search</li>
+      <li><strong>NIP‑71</strong> — Vidéo</li>
+      <li><strong>NIP‑94</strong> — File metadata</li>
+      <li><strong>NIP‑98</strong> — HTTP Auth</li>
+      <li><strong>NIP‑99</strong> — File storage</li>
+    </ul>
+
+    <h3>6.3 NIPs experts</h3>
+    <ul>
+      <li><strong>NIP‑26</strong> — Delegated signing</li>
+      <li><strong>NIP‑51</strong> — Lists</li>
+      <li><strong>NIP‑57</strong> — Zaps</li>
+      <li><strong>NIP‑58</strong> — Badges</li>
+      <li><strong>NIP‑59</strong> — Messages privés</li>
+      <li><strong>NIP‑90</strong> — AI / ML events</li>
+      <li><strong>NIP‑96</strong> — File hosting</li>
+    </ul>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 7. DÉBAT D’EXPERTS -->
+  <section class="article-section">
+    <h2 class="section-title">7. Trois lectures de Nostr — Débat d’experts</h2>
+    <p><strong>Le cryptographe</strong> : “Peu de champs, une signature, un hash. La sécurité repose sur la simplicité.”</p>
+    <p><strong>L’architecte système</strong> : “Réseau d’événements append‑only. Cohérence locale, réplication volontaire, pas de vérité globale imposée.”</p>
+    <p><strong>Le sociologue du numérique</strong> : “L’identité n’est plus donnée par une plateforme : elle est portée par l’individu.”</p>
+    <p>
+      Ces trois lectures coexistent. C’est ce qui rend Nostr unique : un protocole à la fois cryptographique, architectural
+      et social.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 8. ANGLES MORTS -->
+  <section class="article-section">
+    <h2 class="section-title">8. Angles morts — Ce que les fans oublient</h2>
+    <p>
+      Un article honnête sur Nostr doit aussi dire :
+    </p>
+    <ul>
+      <li>la souveraineté est exigeante ;</li>
+      <li>la gestion des clés est difficile pour le grand public ;</li>
+      <li>les relays peuvent disparaître ou filtrer ;</li>
+      <li>la modération est locale, pas globale ;</li>
+      <li>les UX sont encore jeunes ;</li>
+      <li>la fragmentation des clients et des implémentations de NIPs est réelle.</li>
+    </ul>
+    <p>
+      Nostr n’est pas parfait. Il est <strong>possible</strong>. C’est un terrain brut où tu peux construire des choses
+      qui n’étaient pas possibles avant.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 9. ABSTRACTION -->
+  <section class="article-section">
+    <h2 class="section-title">9. Abstraction — Ce que Nostr change vraiment</h2>
+    <p>
+      Si on monte de deux crans en abstraction :
+    </p>
+    <ul>
+      <li>Nostr sépare <strong>l’identité</strong> de l’interface : tu n’es plus défini par une plateforme.</li>
+      <li>Nostr sépare <strong>la signature</strong> de l’UX : tu peux signer ailleurs, publier ailleurs.</li>
+      <li>Nostr sépare <strong>le stockage</strong> de l’application : les relays ne sont pas les clients.</li>
+      <li>Nostr sépare <strong>la diffusion</strong> du contrôle : personne ne peut t’empêcher d’émettre.</li>
+    </ul>
+    <p>
+      Tu n’es plus un “compte” : tu es un <strong>nœud social autonome</strong> dans un espace ouvert.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 10. PACK NOSTRFR -->
+  <section class="article-section">
+    <h2 class="section-title">10. Pack NostrFr — Point d’entrée souverain</h2>
+    <p>
+      Pour un francophone, Nostr est vaste, brut, non guidé. Le pack NostrFr apporte :
+    </p>
+    <ul>
+      <li>une cartographie mentale du protocole,</li>
+      <li>des relays recommandés,</li>
+      <li>des comptes à suivre,</li>
+      <li>des outils souverains (NWAK, Nostria, Mostro, Nowhr, etc.),</li>
+      <li>des guides et workflows concrets.</li>
+    </ul>
+    <p>
+      C’est un <strong>point d’entrée souverain</strong> dans un protocole sans centre.
+    </p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 11. ACCÈS DIRECT -->
+  <section class="article-section">
+    <h2 class="section-title">Accès direct — Ressources Nostr</h2>
+    <p>NIPs officiels :</p>
+    <p class="long-string">https://github.com/nostr-protocol/nips</p>
+    <p>NWAK — microscope du protocole :</p>
+    <p class="long-string">https://nwak.fiatjaf.com</p>
+    <p>Nostria — cockpit social :</p>
+    <p class="long-string">https://nostria.app</p>
+  </section>
+
+  <div class="fx-separator"></div>
+
+  <!-- 12. CONCLUSION -->
+  <section class="article-section">
+    <h2 class="section-title">Conclusion — Nostr est un espace, pas un service</h2>
+    <p>
+      Nostr n’est pas une alternative à Twitter. C’est une alternative à l’idée même de plateforme.
+    </p>
+    <p>
+      C’est un protocole <strong>simple</strong>, <strong>durable</strong>, <strong>résilient</strong>,
+      <strong>ouvert</strong>, <strong>souverain</strong>, <strong>programmable</strong>, <strong>universel</strong>.
+    </p>
+    <p>
+      Nostr n’est pas un produit : c’est un <strong>territoire</strong>. Et tu peux y construire ce que tu veux.
     </p>
   </section>
 
