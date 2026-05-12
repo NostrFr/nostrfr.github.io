@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Nostria — Le cockpit social du protocole Nostr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header class="hero-header">
+  <h1 class="hero-title-anim">
+    <span class="left">Nostria</span>
+    <span class="right">Le cockpit social du protocole Nostr</span>
+  </h1>
+  <p class="hero-subtitle-anim">
+    Plateforme sociale complète construite sur Nostr — identités, relays, flux, médias, communautés, IA, live.
+  </p>
+  <div class="fx-separator"></div>
+</header>
+
+<nav class="article-nav">
+  <a href="/" class="home-btn">← Retour au blog</a>
+</nav>
+
+<main>
+
+<!-- PREFACE -->
+<section class="article-section">
+  <h2 class="section-title">Préface — Pourquoi Nostria mérite une analyse</h2>
+  <p>
+    Nostria n’est pas un “client Nostr”. Ce n’est pas une timeline, ni un lecteur de notes, ni une interface
+    minimaliste. C’est un <strong>cockpit social</strong> : un tableau de bord complet posé au‑dessus du protocole
+    Nostr, où convergent identités, relays, flux, médias, communautés, IA et événements temps réel.
+  </p>
+  <p>
+    Là où NWAK agit comme un microscope, Nostria agit comme un <strong>poste de pilotage</strong>. Tu ne regardes plus
+    seulement le protocole : tu le conduis.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 1 — Grammaire -->
+<section class="article-section">
+  <h2 class="section-title">1. Grammaire interne — Les NIPs supportés</h2>
+  <p>
+    Nostria repose sur une grammaire protocolaire stricte. Il applique les NIPs essentiels du protocole Nostr :
+  </p>
+  <ul>
+    <li><strong>NIP‑01</strong> — Events, REQ, EOSE, OK</li>
+    <li><strong>NIP‑02</strong> — Follow list</li>
+    <li><strong>NIP‑05</strong> — Identité</li>
+    <li><strong>NIP‑10</strong> — Threads</li>
+    <li><strong>NIP‑19</strong> — Encodage bech32</li>
+    <li><strong>NIP‑23</strong> — Articles long‑form</li>
+    <li><strong>NIP‑25</strong> — Réactions</li>
+    <li><strong>NIP‑28</strong> — Channels</li>
+    <li><strong>NIP‑33</strong> — Replaceable events</li>
+    <li><strong>NIP‑47</strong> — Zaps via NWC</li>
+    <li><strong>NIP‑65</strong> — Relay list metadata</li>
+  </ul>
+  <p>
+    Nostria n’invente rien : il assemble ces NIPs pour former une plateforme sociale cohérente.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 2 — Anatomie -->
+<section class="article-section">
+  <h2 class="section-title">2. Anatomie — Architecture interne</h2>
+  <p>
+    Nostria repose sur deux couches distinctes : une couche protocolaire et une couche produit.
+  </p>
+
+  <h3>2.1 Couche protocolaire</h3>
+  <ul>
+    <li>Connexions WebSocket multi‑relays</li>
+    <li>Signature locale via WebCrypto</li>
+    <li>Gestion multi‑identités</li>
+    <li>Publication directe d’events</li>
+    <li>REQ propres, subids explicites</li>
+    <li>Zaps via NWC</li>
+  </ul>
+
+  <h3>2.2 Couche produit</h3>
+  <ul>
+    <li>Dashboard modulaire</li>
+    <li>Feeds multiples</li>
+    <li>Discover / Explore</li>
+    <li>Collections</li>
+    <li>Communautés</li>
+    <li>Articles</li>
+    <li>Chats</li>
+    <li>Live Meetings</li>
+    <li>IA intégrée</li>
+    <li>Paramètres avancés</li>
+  </ul>
+
+  <p>
+    Nostria = <strong>protocole</strong> + <strong>plateforme sociale</strong>.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 3 — Identités -->
+<section class="article-section">
+  <h2 class="section-title">3. Identités — npub, nsec, multi‑profils</h2>
+  <p>
+    Nostria gère les identités de manière souveraine :
+  </p>
+  <ul>
+    <li>import de <strong>npub</strong> (lecture seule)</li>
+    <li>import de <strong>nsec</strong> (signature locale)</li>
+    <li>multi‑identités</li>
+    <li>stockage isolé par identité</li>
+    <li>relays par identité</li>
+    <li>follows par identité</li>
+  </ul>
+  <p>
+    Une identité Nostr devient un <strong>profil pilotable</strong> dans le cockpit.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 4 — Relays -->
+<section class="article-section">
+  <h2 class="section-title">4. Relays — Le réseau sous le cockpit</h2>
+  <p>
+    Nostria offre un panneau complet pour gérer les relays :
+  </p>
+  <ul>
+    <li>ajout / suppression</li>
+    <li>activation / désactivation</li>
+    <li>priorisation implicite</li>
+    <li>lecture et écriture NIP‑65</li>
+    <li>fallback propre</li>
+    <li>multi‑relays parallèles</li>
+  </ul>
+  <p>
+    Tu ne subis pas les relays : tu <strong>configures ton réseau</strong>.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 5 — Feeds -->
+<section class="article-section">
+  <h2 class="section-title">5. Feeds — Les flux sociaux</h2>
+  <p>
+    Nostria segmente les flux en espaces fonctionnels :
+  </p>
+  <ul>
+    <li>Your Feeds</li>
+    <li>Messages</li>
+    <li>Articles</li>
+    <li>Chats</li>
+    <li>Summary</li>
+    <li>Notifications</li>
+  </ul>
+  <p>
+    Chaque flux correspond à des combinaisons de filtres REQ (kinds, auteurs, tags).
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 6 — Discover -->
+<section class="article-section">
+  <h2 class="section-title">6. Discover — Explorer le réseau</h2>
+  <p>
+    Modules :
+  </p>
+  <ul>
+    <li>Discover</li>
+    <li>Explore</li>
+    <li>People</li>
+    <li>Clips</li>
+    <li>Music</li>
+    <li>Streams</li>
+  </ul>
+  <p>
+    Discover agit comme un <strong>radar</strong> : il montre ce qui existe hors de ton graphe direct.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 7 — Collections -->
+<section class="article-section">
+  <h2 class="section-title">7. Collections — La mémoire personnelle</h2>
+  <p>
+    Nostria permet de sauvegarder :
+  </p>
+  <ul>
+    <li>Media</li>
+    <li>Bookmarks</li>
+    <li>Social Bookmarks</li>
+    <li>Articles</li>
+    <li>Clips</li>
+    <li>Streams</li>
+  </ul>
+  <p>
+    C’est ta <strong>mémoire Nostr personnelle</strong>.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 8 — Social graph -->
+<section class="article-section">
+  <h2 class="section-title">8. Social graph — People, communautés, polls</h2>
+  <p>
+    Nostria implémente un graphe social complet :
+  </p>
+  <ul>
+    <li>Find People</li>
+    <li>Communities</li>
+    <li>Polls</li>
+    <li>Albums</li>
+    <li>Queue</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 9 — Création -->
+<section class="article-section">
+  <h2 class="section-title">9. Création — Publier depuis le cockpit</h2>
+  <p>
+    Nostria permet de publier :
+  </p>
+  <ul>
+    <li>notes (kind 1)</li>
+    <li>articles (kind 30023)</li>
+    <li>réactions (kind 7)</li>
+    <li>metadata (kind 0)</li>
+    <li>relay list (kind 10002)</li>
+    <li>replaceable events (NIP‑33)</li>
+    <li>replies (tags e/p)</li>
+    <li>mentions (tags p)</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 10 — Live -->
+<section class="article-section">
+  <h2 class="section-title">10. Live — Meetings & Streams</h2>
+  <p>
+    Nostria combine Nostr et WebRTC pour offrir :
+  </p>
+  <ul>
+    <li>Live Meetings</li>
+    <li>Streams</li>
+  </ul>
+  <p>
+    Nostr sert de <strong>plan de contrôle</strong> pour le live.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 11 — IA -->
+<section class="article-section">
+  <h2 class="section-title">11. IA — Assistants intégrés</h2>
+  <p>
+    Modules :
+  </p>
+  <ul>
+    <li>AI</li>
+    <li>AI Models</li>
+    <li>Chat with AI assistants</li>
+    <li>AI Settings</li>
+  </ul>
+  <p>
+    L’IA n’est pas dans le protocole : elle est dans l’interface Nostria.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 12 — Souveraineté -->
+<section class="article-section">
+  <h2 class="section-title">12. Souveraineté — Identités, relays, sécurité</h2>
+  <p>
+    Nostria respecte la souveraineté utilisateur :
+  </p>
+  <ul>
+    <li>signature locale</li>
+    <li>aucun backend obligatoire</li>
+    <li>pas de tracking intégré</li>
+    <li>multi‑identités</li>
+    <li>relays configurables</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 13 — Philosophie -->
+<section class="article-section">
+  <h2 class="section-title">13. Philosophie produit</h2>
+  <p>
+    Nostria affirme :
+  </p>
+  <ul>
+    <li>l’utilisateur n’est pas le produit</li>
+    <li>pas de manipulation algorithmique revendiquée</li>
+    <li>propriété des données</li>
+    <li>résistance à la censure</li>
+    <li>design simple et accessible</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CHAPITRE 14 — Exemple -->
+<section class="article-section">
+  <h2 class="section-title">14. Exemple — Profil Nostria</h2>
+  <p>
+    Exemple d’URL publique Nostria :
+  </p>
+  <p class="long-string">
+    https://nostria.app/p/nprofile1qywhwumn8ghj7mn0wd68ytfsxgh8jcttd95x7mnwv5hxxmmd9uqzqmcjedqek97qelf6e582vdegat67gpujhc36knqxp7eh7tu6ze83uz7j9d
+  </p>
+  <p>
+    Cette URL n’est qu’une vue sur un profil Nostr encodé en NIP‑19.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- CONCLUSION -->
+<section class="article-section">
+  <h2 class="section-title">Conclusion — Nostria comme cockpit social</h2>
+  <p>
+    Nostria n’est pas un client minimaliste. C’est une <strong>plateforme sociale complète</strong> construite sur
+    Nostr : flux, médias, communautés, live, IA, collections, multi‑identités et gestion fine des relays.
+  </p>
+  <p>
+    Aujourd’hui, Nostria représente l’un des états de l’art d’un réseau social construit sur Nostr. Un cockpit solide
+    pour piloter une identité dans l’espace du protocole.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+</body>
+</html>
