@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Nostr — Le Guide Total Définitif</title>
+  <title>Nostr — Guide complet du protocole</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -12,10 +12,10 @@
 <header class="hero-header">
   <h1 class="hero-title-anim">
     <span class="left">Nostr</span>
-    <span class="right">Le Guide Total Définitif</span>
+    <span class="right">Guide complet du protocole</span>
   </h1>
   <p class="hero-subtitle-anim">
-    Le protocole social souverain — expliqué comme un système, un langage et une révolution silencieuse.
+    Comprendre Nostr comme protocole : identité par clé, events signés, relays distribués, NIPs et fonctionnement réel des clients.
   </p>
   <div class="fx-separator"></div>
 </header>
@@ -123,7 +123,7 @@
       <strong>disque dur partagé</strong>, pas une plateforme.
     </p>
     <p>
-      Angles morts :
+      Limites :
     </p>
     <ul>
       <li>un relay peut disparaître,</li>
@@ -225,9 +225,9 @@
 
   <div class="fx-separator"></div>
 
-  <!-- 7. DÉBAT D’EXPERTS -->
+  <!-- 7. POINTS DE VUE -->
   <section class="article-section">
-    <h2 class="section-title">7. Trois lectures de Nostr — Débat d’experts</h2>
+    <h2 class="section-title">7. Trois points de vue sur Nostr</h2>
     <p><strong>Le cryptographe</strong> : “Peu de champs, une signature, un hash. La sécurité repose sur la simplicité.”</p>
     <p><strong>L’architecte système</strong> : “Réseau d’événements append‑only. Cohérence locale, réplication volontaire, pas de vérité globale imposée.”</p>
     <p><strong>Le sociologue du numérique</strong> : “L’identité n’est plus donnée par une plateforme : elle est portée par l’individu.”</p>
@@ -239,9 +239,9 @@
 
   <div class="fx-separator"></div>
 
-  <!-- 8. ANGLES MORTS -->
+  <!-- 8. LIMITES -->
   <section class="article-section">
-    <h2 class="section-title">8. Angles morts — Ce que les fans oublient</h2>
+    <h2 class="section-title">8. Limites et contraintes du protocole</h2>
     <p>
       Un article honnête sur Nostr doit aussi dire :
     </p>
@@ -261,17 +261,17 @@
 
   <div class="fx-separator"></div>
 
-  <!-- 9. ABSTRACTION -->
+  <!-- 9. IMPACT -->
   <section class="article-section">
-    <h2 class="section-title">9. Abstraction — Ce que Nostr change vraiment</h2>
+    <h2 class="section-title">9. Ce que Nostr change en profondeur</h2>
     <p>
-      Si on monte de deux crans en abstraction :
+      Nostr modifie plusieurs couches fondamentales :
     </p>
     <ul>
-      <li>Nostr sépare <strong>l’identité</strong> de l’interface : tu n’es plus défini par une plateforme.</li>
-      <li>Nostr sépare <strong>la signature</strong> de l’UX : tu peux signer ailleurs, publier ailleurs.</li>
-      <li>Nostr sépare <strong>le stockage</strong> de l’application : les relays ne sont pas les clients.</li>
-      <li>Nostr sépare <strong>la diffusion</strong> du contrôle : personne ne peut t’empêcher d’émettre.</li>
+      <li>il sépare <strong>l’identité</strong> de l’interface ;</li>
+      <li>il sépare <strong>la signature</strong> de l’UX ;</li>
+      <li>il sépare <strong>le stockage</strong> de l’application ;</li>
+      <li>il sépare <strong>la diffusion</strong> du contrôle.</li>
     </ul>
     <p>
       Tu n’es plus un “compte” : tu es un <strong>nœud social autonome</strong> dans un espace ouvert.
@@ -280,14 +280,16 @@
 
   <div class="fx-separator"></div>
 
-  <!-- 10. PACK NOSTRFR -->
+  <!-- 10. PACKS NOSTRFR + NOSTRMAP -->
   <section class="article-section">
-    <h2 class="section-title">10. Pack NostrFr — Point d’entrée souverain</h2>
+    <h2 class="section-title">10. Packs NostrFr et NostrMAP — Points d’entrée francophones</h2>
+
+    <h3>Pack NostrFr</h3>
     <p>
       Pour un francophone, Nostr est vaste, brut, non guidé. Le pack NostrFr apporte :
     </p>
     <ul>
-      <li>une cartographie mentale du protocole,</li>
+      <li>une cartographie claire du protocole,</li>
       <li>des relays recommandés,</li>
       <li>des comptes à suivre,</li>
       <li>des outils souverains (NWAK, Nostria, Mostro, Nowhr, etc.),</li>
@@ -295,6 +297,33 @@
     </ul>
     <p>
       C’est un <strong>point d’entrée souverain</strong> dans un protocole sans centre.
+    </p>
+
+    <h3>Pack NostrMAP.fr</h3>
+    <p>
+      Le pack NostrMAP.fr complète NostrFr avec une <strong>carte communautaire francophone</strong> :
+    </p>
+    <ul>
+      <li>comptes Nostr FR,</li>
+      <li>projets, créateurs, développeurs, bitcoiners,</li>
+      <li>liens directs vers les profils (npub / nprofile),</li>
+      <li>structure lisible et accessible,</li>
+      <li>découverte rapide du graphe social francophone.</li>
+    </ul>
+    <p>
+      C’est un <strong>outil d’amorçage social</strong> : il aide à construire un graphe initial et à découvrir les acteurs francophones.
+    </p>
+    <p class="long-string">
+      https://nostrmap.fr/p/hhmsl30dp3ls
+    </p>
+
+    <h3>Complémentarité</h3>
+    <p>
+      NostrFr → souveraineté, protocoles, outils, relays, workflows.<br>
+      NostrMAP.fr → communauté, découverte, graphe social, visibilité FR.
+    </p>
+    <p>
+      Ensemble, ils forment un <strong>double point d’entrée</strong> : comprendre le protocole et entrer dans la communauté.
     </p>
   </section>
 
@@ -317,7 +346,7 @@
   <section class="article-section">
     <h2 class="section-title">Conclusion — Nostr est un espace, pas un service</h2>
     <p>
-      Nostr n’est pas une alternative à Twitter. C’est une alternative à l’idée même de plateforme.
+      Nostr n’est pas une alternative à un réseau social existant. C’est une alternative à l’idée même de plateforme.
     </p>
     <p>
       C’est un protocole <strong>simple</strong>, <strong>durable</strong>, <strong>résilient</strong>,
