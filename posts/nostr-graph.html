@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>NostrGraph v1.1 — Visualiser son graphe social Nostr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body id="top">
+
+<header class="hero-header">
+  <h1 class="hero-title-anim">
+    <span class="left">NostrGraph v1.1</span>
+    <span class="right">Visualiser son graphe social Nostr</span>
+  </h1>
+  <p class="hero-subtitle-anim">
+    Micro‑app souveraine, 100% client‑side, pour explorer visuellement son réseau Nostr à partir d’un npub ou d’une clé publique.
+  </p>
+  <div class="fx-separator"></div>
+</header>
+
+<nav class="article-nav">
+  <a href="/" class="home-btn">← Retour au blog</a>
+</nav>
+
+<main>
+
+<!-- 1. Présentation -->
+<section class="article-section">
+  <h2 class="section-title">1. Présentation — Pourquoi NostrGraph existe</h2>
+  <p>
+    NostrGraph v1.1 est une micro‑application statique qui affiche le <strong>graphe social immédiat</strong> d’un compte
+    Nostr. Elle ne montre pas une timeline : elle montre la structure réelle du réseau — un ensemble de clés publiques
+    reliées par des relations de suivi (kind 3).
+  </p>
+  <p>
+    L’app fonctionne entièrement dans le navigateur : aucun backend, aucune dépendance externe, aucun tracking. Elle se
+    connecte à plusieurs relays Nostr via WebSocket, interroge les contacts d’un compte, puis dessine un graphe minimal
+    sur un canvas.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 2. Fonctionnalités v1.1 -->
+<section class="article-section">
+  <h2 class="section-title">2. Fonctionnalités de NostrGraph v1.1</h2>
+  <p>
+    La version 1.1 de NostrGraph se concentre sur un périmètre volontairement réduit, mais déjà utile pour les
+    utilisateurs et les développeurs.
+  </p>
+  <ul>
+    <li>Support <strong>npub → hex</strong> via NIP‑19 (décodage côté client)</li>
+    <li>Support direct des <strong>clés publiques hex</strong> (64 caractères)</li>
+    <li>Connexion à plusieurs relays Nostr publics (WebSocket)</li>
+    <li>Envoi de requêtes <strong>kind 3</strong> pour récupérer les contacts</li>
+    <li>Construction d’un graphe minimal : root + contacts</li>
+    <li>Affichage du graphe sur un canvas : root au centre, contacts en cercle</li>
+    <li>Clic sur un nœud → panneau d’information (id + degré)</li>
+    <li>Messages d’état pour le chargement et les erreurs</li>
+    <li>Interface brutaliste noir/blanc, responsive, 100% client‑side</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 3. Mode d’emploi -->
+<section class="article-section">
+  <h2 class="section-title">3. Mode d’emploi — Comment utiliser NostrGraph</h2>
+  <h3>3.1 Accès à l’application</h3>
+  <p>
+    L’instance actuelle de NostrGraph v1.1 est accessible ici :
+  </p>
+  <p class="long-string">
+    https://nostr-graph.base44.app/
+  </p>
+
+  <h3>3.2 Entrer une identité</h3>
+  <p>
+    Dans le champ principal, tu peux coller :
+  </p>
+  <ul>
+    <li>un <strong>npub</strong> (encodage NIP‑19)</li>
+    <li>ou une <strong>clé publique hex</strong> (64 caractères)</li>
+  </ul>
+  <p>
+    Si tu colles un npub, l’app le décode en hex côté client via un module NIP‑19 minimal. Si tu colles directement une
+    clé hex, elle est utilisée telle quelle.
+  </p>
+
+  <h3>3.3 Lancer l’exploration</h3>
+  <p>
+    Une fois l’identité collée, clique sur le bouton <strong>« Explorer »</strong>. L’app :
+  </p>
+  <ul>
+    <li>valide le format (npub ou hex)</li>
+    <li>décode le npub si nécessaire</li>
+    <li>ouvre des connexions WebSocket vers plusieurs relays</li>
+    <li>envoie une requête kind 3 pour récupérer les contacts</li>
+    <li>construit un graphe à partir des events reçus</li>
+    <li>dessine le graphe sur le canvas</li>
+  </ul>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 4. Lecture du graphe -->
+<section class="article-section">
+  <h2 class="section-title">4. Lire le graphe — Ce que tu vois à l’écran</h2>
+  <p>
+    Le graphe affiché par NostrGraph v1.1 est volontairement simple :
+  </p>
+  <ul>
+    <li>le <strong>nœud central</strong> représente l’identité que tu as fournie (root)</li>
+    <li>les <strong>nœuds autour</strong> représentent les contacts déclarés dans son kind 3</li>
+    <li>chaque <strong>ligne</strong> représente une relation de suivi root → contact</li>
+  </ul>
+  <p>
+    En cliquant sur un nœud, tu ouvres un panneau d’information qui affiche :
+  </p>
+  <ul>
+    <li>l’identifiant du nœud (clé publique)</li>
+    <li>son <strong>degré</strong> dans le graphe (nombre de liens)</li>
+  </ul>
+  <p>
+    Ce n’est pas un client social : c’est une <strong>vue structurelle</strong> de ton réseau immédiat.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 5. Cas d’usage utilisateur -->
+<section class="article-section">
+  <h2 class="section-title">5. Cas d’usage — Côté utilisateur</h2>
+  <p>
+    Pour un utilisateur Nostr, NostrGraph v1.1 permet de :
+  </p>
+  <ul>
+    <li>visualiser <strong>son propre graphe social</strong></li>
+    <li>voir si son compte est plutôt <strong>isolé</strong>, <strong>connecté</strong> ou <strong>hub</strong></li>
+    <li>explorer le réseau d’un autre compte en collant son npub</li>
+    <li>comprendre que Nostr n’est pas une simple timeline, mais un <strong>graphe d’identités signées</strong></li>
+  </ul>
+  <p>
+    C’est un outil de <strong>compréhension</strong> : il montre ce que le protocole fait réellement, au‑delà de
+    l’interface des clients.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 6. Cas d’usage développeur -->
+<section class="article-section">
+  <h2 class="section-title">6. Cas d’usage — Côté développeur</h2>
+  <p>
+    Pour un développeur Nostr, NostrGraph v1.1 sert de <strong>microscope graphique</strong> :
+  </p>
+  <ul>
+    <li>vérifier que les relays renvoient bien les events kind 3 attendus</li>
+    <li>débugger la follow list d’un compte</li>
+    <li>tester la cohérence d’un profil (contacts, densité, structure)</li>
+    <li>préparer des analyses plus avancées (relays, propagation, clusters)</li>
+  </ul>
+  <p>
+    Là où NWAK inspecte les events JSON bruts, NostrGraph en donne une <strong>projection visuelle</strong>.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 7. Stack et souveraineté -->
+<section class="article-section">
+  <h2 class="section-title">7. Stack technique et souveraineté</h2>
+  <p>
+    NostrGraph v1.1 respecte une approche radicalement simple :
+  </p>
+  <ul>
+    <li>HTML / CSS / JavaScript brut</li>
+    <li>aucun framework</li>
+    <li>aucune dépendance externe</li>
+    <li>aucun backend</li>
+    <li>WebSockets Nostr directs vers plusieurs relays</li>
+    <li>hébergement statique (Base.44, GitHub Pages, Neocities, etc.)</li>
+  </ul>
+  <p>
+    Le code tourne entièrement côté client. L’utilisateur garde le contrôle : pas de compte, pas de base de données, pas
+    de serveur à faire confiance.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 8. Vers NostrGraph v2 -->
+<section class="article-section">
+  <h2 class="section-title">8. Et après ? NostrGraph v2 sur GitHub</h2>
+  <p>
+    NostrGraph v1.1 est une première brique : un <strong>explorateur de graphe social immédiat</strong>. Une version
+    plus complète est déjà en cours de développement : <strong>NostrGraph v2</strong>.
+  </p>
+  <p>
+    Cette v2 sera :
+  </p>
+  <ul>
+    <li>hébergée sur <strong>GitHub</strong> dans un dépôt public</li>
+    <li>versionnée proprement</li>
+    <li>documentée</li>
+    <li>ouverte aux contributions</li>
+  </ul>
+  <p>
+    Elle intégrera notamment :
+  </p>
+  <ul>
+    <li><strong>NIP‑65</strong> — relays déclarés par utilisateur</li>
+    <li>visualisation de la <strong>propagation d’un event</strong> (latence par relay)</li>
+    <li>clusters par relay</li>
+    <li>profondeur 2 du graphe</li>
+    <li>export JSON pour analyses externes</li>
+  </ul>
+  <p>
+    L’objectif : transformer NostrGraph en <strong>analyseur Nostr souverain</strong>, utile autant aux utilisateurs
+    qu’aux développeurs.
+  </p>
+</section>
+
+<div class="fx-separator"></div>
+
+<!-- 9. Conclusion -->
+<section class="article-section">
+  <h2 class="section-title">Conclusion — Un premier cockpit visuel pour le graphe Nostr</h2>
+  <p>
+    NostrGraph v1.1 ne cherche pas à remplacer un client Nostr. Il fournit une chose précise : une <strong>vue
+    graphique</strong> de ton réseau immédiat, à partir de ton npub ou de ta clé publique.
+  </p>
+  <p>
+    En rendant visible le graphe social sous‑jacent, NostrGraph participe à une même démarche que NWAK : voir Nostr là
+    où il ne ment pas — dans sa structure, ses events, ses liens. La v2, hébergée sur GitHub, prolongera cette logique
+    en ajoutant relays, propagation et analyse avancée.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <a href="#top" class="top-btn">↑ Haut de page</a>
+  <p>NostrFr — Blog souverain</p>
+</footer>
+
+</body>
+</html>
